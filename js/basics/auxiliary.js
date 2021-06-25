@@ -413,10 +413,31 @@ function getNormalizedArr(dataArray) {
 /**
  * Convert an array to array of objects
  * @param data
+ * @returns {Array}
+ */
+function convertToArrayOfObjects(data) {
+    var keys = data[0],
+        i = 0, k = 0,
+        obj = null,
+        output = [];
+
+    for (i = 0; i < data.length; i++) {
+        obj = {};
+        for (k = 0; k < keys.length; k++) {
+            obj[keys[k]] = data[i][k];
+        }
+        output.push(obj);
+    }
+    return output;
+}
+
+/**
+ * Convert an array to dict of objects
+ * @param data
  * @param classes
  * @returns {Array}
  */
-function convertToArrayOfObjects(data, classes) {
+function convertToClassDict(data, classes) {
     var keys = data.shift(),
         i = 0, k = 0,
         classDict = {},

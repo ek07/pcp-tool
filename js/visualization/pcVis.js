@@ -3,7 +3,7 @@
  * link: https://bl.ocks.org/mbostock/7586334
  */
 
-function pcVis(dataDict, classes) {
+function pcVis(data, dataDict, classes) {
     var m = [30, 10, 10, 10], //margin
         w = 960 - m[1] - m[3],
         h = 500 - m[0] - m[2];
@@ -18,17 +18,16 @@ function pcVis(dataDict, classes) {
         foreground;
 
     document.getElementById("targetPC").className = "show";
+    var colours = d3.scale.category10();
 
     for (i=0; i<classes.length; i++){
         c = classes[i];
         var dataset = dataDict[c];
-        
-        console.log(dataset);
+
         // Extract the list of dimensions and create a scale for each.
         x.domain(dimensions = d3.keys(dataset[0]).filter(function (d) {
-            // return d !== "name" && (y[d] = d3.scale.linear()
-            return (y[d] = d3.scale.linear()
-                .domain(d3.extent(dataset, function (p) {
+            return d !== "class" && (y[d] = d3.scale.linear()
+                .domain(d3.extent(data, function (p) {
                     return +p[d];
                 }))
                 .range([h, 0]));
@@ -55,7 +54,8 @@ function pcVis(dataDict, classes) {
             .selectAll("path")
             .data(dataset)
             .enter().append("path")
-            .attr("d", path);
+            .attr("d", path)
+            .attr("stroke", colours(i%10));
 
         // Add a group element for each dimension.
         var g = svg.selectAll(".dimension")
