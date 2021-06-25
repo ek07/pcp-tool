@@ -24,72 +24,42 @@
         <div class="main-content alternate-colors">
             <div id="folder-structure" class="content-row">
                 <div class="content-row__content">
-                    <h3 class="heading">Step 1: Choose your data(.csv)</h3>
-                    <!--<p>Please note that-->
-                    <ul>
-                        <li> The first column needs to contain the class and will not be visualized.</li>
-                        <li> All values in the data are considered to be on a ratio scale.</li>
-                        <li> Computing time increases factorially with larger number of dimensions.</li>
-                    </ul>
+                        <h3 class="heading">Load data (.csv)</h3>
+                        <ul>
+                            <li> The first column needs to contain the class.</li>
+                            <li> Computing time increases factorially with larger number of dimensions.</li>
+                        </ul>
 
-                    <p><input class="form-control" id="files" required="" type="file" accept=".csv"></p>
-                    <p>
-                        <input type="checkbox" placeholder="" id="normalized" value="normalized">
-                        All columns are already normalized in range [0,1]. No normalization will be applied.<br>
-                    </p>
-                    <h3 class="heading">Step 2: Choose feature vector type</h3>
-                    <select id="list" onchange="showSim()">
-                        <option value="0" id="0">Mean</option>
-                        <option value="1" id="1">Mean +- Std</option>
-                        <option value="2" id="2">Histogram</option>
-                    </select>
-                    <br>
-                    <h3 class="heading">Step 3: Choose quality metric</h3>
-                    <select id="list" onchange="showSim()">
-                        <option value="0" id="0">Correlation</option>
-                        <option value="1" id="1">Poly line length</option>
-                    </select>
-                    <br>
+                        <p><input class="form-control" id="files" required="" type="file" accept=".csv" value="TestData/cars.csv"></p>
 
-                    <br><br>
+                        <h3 class="heading">Select feature vector type</h3>
+                        <select id="feature-vector">
+                            <option value="mean" id="0">Mean</option>
+                            <option value="mean_std" id="1">Mean &#177 Std</option>
+                            <option value="histogram" id="2">Histogram</option>
+                        </select>
+                      <br>
 
+                      <br><br>
 
-                    <button id="submit" class="btn btn-default" type="submit">Submit</button>
-                    <input type="button" class="btn btn-default" value="Refresh Page"
-                           onClick="window.location.reload()">
-                    <br>
-                    <br>
-                    <div id="app"></div>
-                </div>
+                      <button id="submit" class="btn btn-default" type="submit">Submit</button>
+                      <!-- <input type="button" class="btn btn-default" value="Refresh Page" onClick="window.location.reload()"> -->
+                      <div class="hidden" id="targetPC"></div>
+                      <br>
+                      <br>
+                      <div id="app"></div>
+                  </div>
             </div>
         </div>
     </div>
-    <!--
-    <div class="footer-wrapper">
-        <div class="footer site-normal-width">
-            BA Project, Xuan Zhang @ Uni Konstanz
-        </div>
-    </div>
-    -->
 </div>
-
-    <!--
-<script src="http://d3js.org/d3.v3.min.js"></script>
-<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
-<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
-<script src='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-beta/js/bootstrap.min.js'></script>
-<script src='https://cdnjs.cloudflare.com/ajax/libs/PapaParse/4.3.6/papaparse.js'></script>
--->
 
 <script src="js/bootstrap/jquery.min.js"></script>
 <script src="js/bootstrap/d3.v3.min.js"></script>
-<script src="js/bootstrap/jquery-3.2.1.slim.min.js"></script>
+<!-- <script src="js/bootstrap/jquery-3.2.1.slim.min.js"></script>
 <script src="js/bootstrap/popper.min.js"></script>
 <script src="js/bootstrap/bootstrap.min.js"></script>
-<script src='js/bootstrap/bootstrap2.min.js'></script>
+<script src='js/bootstrap/bootstrap2.min.js'></script> -->
 <script src='js/bootstrap/papaparse.js'></script>
 
 
@@ -98,7 +68,8 @@
 <script src="js/basics/auxiliary.js"></script>
 <script src="js/basics/svd.js"></script>
 <script src="js/basics/combinations.js"></script>
-<script src="js/orderingMethods/artero.js"></script>
+
+<!-- <script src="js/orderingMethods/artero.js"></script>
 <script src="js/orderingMethods/artero_dis.js"></script>
 <script src="js/orderingMethods/luCon.js"></script>
 <script src="js/orderingMethods/luSim.js"></script>
@@ -108,6 +79,6 @@
 <script src="js/orderingMethods/peng_pc.js"></script>
 <script src="js/orderingMethods/pargnostics.js"></script>
 <script src="js/orderingMethods/maxVar_global.js"></script>
-<script src="js/orderingMethods/minVar_global.js"></script>
+<script src="js/orderingMethods/minVar_global.js"></script> -->
 </body>
 
