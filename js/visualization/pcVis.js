@@ -49,16 +49,15 @@ function pcVis(data, dataDict, classes) {
         class_name = classes[i];
         var dataset_orig = dataDict[class_name];
 
-        var dataset = reorder(dataset_orig, dim_order);
-        // var dataset = dataset_orig;
-        console.log(dim_order);
-        console.log(dataset);
+        var dataset = reorder_data(dataset_orig, dim_order);
+        var reordered_data = reorder_whole_ds(data, dim_order);
+        console.log(reordered_data);
         // console.log(datasetn);
         // Extract the list of dimensions and create a scale for each.
         x.domain(dimensions = d3.keys(dataset[0]).filter(function (d) {
             return d !== "class" && (y[d] = d3.scale.linear()
-                .domain(d3.extent(data, function (p) {
-                    return +p[d];
+                .domain(d3.extent(reordered_data, function (p) {
+                    return +p[d]; // the plus converts string to number
                 }))
                 .range([h, 0]));
         }));
@@ -110,36 +109,36 @@ function pcVis(data, dataDict, classes) {
             .attr("class", "dimension")
             .attr("transform", function (d) {
                 return "translate(" + x(d) + "," + title_spacing + ")";
-            })
-            .call(d3.behavior.drag()
-                .on("dragstart", function (d) {
-                    dragging[d] = this.__origin__ = x(d);
-                    background.attr("visibility", "hidden");
-                })
-                .on("drag", function (d) {
-                    dragging[d] = Math.min(w, Math.max(0, this.__origin__ += d3.event.dx));
-                    foreground.attr("d", path);
-                    dimensions.sort(function (a, b) {
-                        return position(a) - position(b);
-                    });
-                    x.domain(dimensions);
-                    g.attr("transform", function (d) {
-                        return "translate(" + position(d) + "," + title_spacing + ")";
-                    })
-                })
-                .on("dragend", function (d) {
-                    delete this.__origin__;
-                    delete dragging[d];
-                    transition(d3.select(this)).attr("transform", "translate(" + x(d) + "," + title_spacing + ")");
-                    transition(foreground)
-                        .attr("d", path);
-                    background
-                        .attr("d", path)
-                        .transition()
-                        .delay(500)
-                        .duration(0)
-                        .attr("visibility", null);
-                }));
+            });
+            // .call(d3.behavior.drag()
+            //     .on("dragstart", function (d) {
+            //         dragging[d] = this.__origin__ = x(d);
+            //         background.attr("visibility", "hidden");
+            //     })
+            //     .on("drag", function (d) {
+            //         dragging[d] = Math.min(w, Math.max(0, this.__origin__ += d3.event.dx));
+            //         foreground.attr("d", path);
+            //         dimensions.sort(function (a, b) {
+            //             return position(a) - position(b);
+            //         });
+            //         x.domain(dimensions);
+            //         g.attr("transform", function (d) {
+            //             return "translate(" + position(d) + "," + title_spacing + ")";
+            //         })
+            //     })
+            //     .on("dragend", function (d) {
+            //         delete this.__origin__;
+            //         delete dragging[d];
+            //         transition(d3.select(this)).attr("transform", "translate(" + x(d) + "," + title_spacing + ")");
+            //         transition(foreground)
+            //             .attr("d", path);
+            //         background
+            //             .attr("d", path)
+            //             .transition()
+            //             .delay(500)
+            //             .duration(0)
+            //             .attr("visibility", null);
+            //     }));
 
 
         // Add an axis and title.

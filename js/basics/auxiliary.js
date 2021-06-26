@@ -702,7 +702,7 @@ function dimOrderValid(dim_order, expected_dim_length){
     return true;
 }
 
-function reorder(data, dim_order){
+function reorder_data(data, dim_order){
     keys = d3.keys(data[0]);
 
     reordered_keys = [];
@@ -711,17 +711,53 @@ function reorder(data, dim_order){
     for (i=0; i<keys.length; i++){
         key_val = keys[dim_order[i]-1];
         reordered_keys.push(key_val);
-        new_keys.push(key_val + "(" + dim_order[i] + ")");
+
+         nk = key_val + "(" + dim_order[i] + ")";
+         new_keys.push(nk);
     }
 
     var i = 0, k = 0,
         newObj = null,
         output = [];
 
+
     for (i = 0; i < data.length; i++) {
         newObj = {};
+
         for (k = 0; k < keys.length; k++) {
-            newObj[reordered_keys[k]] = data[i][reordered_keys[k]];
+            newObj[new_keys[k]] = data[i][reordered_keys[k]];
+        }
+        output.push(newObj);
+    }
+    return output;
+}
+
+function reorder_whole_ds(data, dim_order){
+    keys = d3.keys(data[0]);
+
+    reordered_keys = [];
+    new_keys = [];
+    reordered_keys.push(keys[0]); //the classes key
+    new_keys.push(keys[0]);
+
+    for (i=0; i<dim_order.length; i++){
+        key_val = keys[dim_order[i]];
+        reordered_keys.push(key_val);
+
+        nk = key_val + "(" + dim_order[i] + ")";
+        new_keys.push(nk);
+    }
+
+    var i = 0, k = 0,
+        newObj = null,
+        output = [];
+
+
+    for (i = 0; i < data.length; i++) {
+        newObj = {};
+
+        for (k = 0; k < keys.length; k++) {
+            newObj[new_keys[k]] = data[i][reordered_keys[k]];
         }
         output.push(newObj);
     }
