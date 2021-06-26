@@ -6,7 +6,8 @@
 function pcVis(data, dataDict, classes) {
     var m = [30, 10, 10, 10], //margin
         w = 960 - m[1] - m[3],
-        h = 500 - m[0] - m[2];
+        h = 400 - m[0] - m[2],
+        title_spacing = 40;
 
     var x = d3.scale.ordinal().rangePoints([0, w], 1),
         y = {},
@@ -21,8 +22,8 @@ function pcVis(data, dataDict, classes) {
     var colours = d3.scale.category10();
 
     for (i=0; i<classes.length; i++){
-        c = classes[i];
-        var dataset = dataDict[c];
+        class_name = classes[i];
+        var dataset = dataDict[class_name];
 
         // Extract the list of dimensions and create a scale for each.
         x.domain(dimensions = d3.keys(dataset[0]).filter(function (d) {
@@ -35,10 +36,18 @@ function pcVis(data, dataDict, classes) {
 
         var svg = d3.select("#targetPC").append("svg")
             .attr("width", w + m[1] + m[3])
-            .attr("height", h + m[0] + m[2])
+            .attr("height", h + m[0] + m[2] + title_spacing)
             .append("g")
             .attr("transform", "translate(" + m[3] + "," + m[0] + ")");
 
+        // Add class name
+        name = svg.append("g")
+            .append("text")
+            .text(class_name)
+            .attr("x", "50%")
+            .attr("y", 0)
+            .attr("text-anchor", "middle")
+            .attr("font-size", 20);
 
         // Add grey background lines for context.
         background = svg.append("g")
@@ -46,7 +55,10 @@ function pcVis(data, dataDict, classes) {
             .selectAll("path")
             .data(dataset)
             .enter().append("path")
-            .attr("d", path);
+            .attr("d", path)
+            .attr("transform", function (d) {
+                return "translate(0, " + title_spacing + ")";
+            });
 
         // Add blue foreground lines for focus.
         foreground = svg.append("g")
@@ -55,7 +67,10 @@ function pcVis(data, dataDict, classes) {
             .data(dataset)
             .enter().append("path")
             .attr("d", path)
-            .attr("stroke", colours(i%10));
+            .attr("stroke", colours(i%10))
+            .attr("transform", function (d) {
+                return "translate(0, " + title_spacing + ")";
+            });
 
         // Add a group element for each dimension.
         var g = svg.selectAll(".dimension")
@@ -63,7 +78,7 @@ function pcVis(data, dataDict, classes) {
             .enter().append("g")
             .attr("class", "dimension")
             .attr("transform", function (d) {
-                return "translate(" + x(d) + ")";
+                return "translate(" + x(d) + "," + title_spacing + ")";
             })
             .call(d3.behavior.drag()
                 .on("dragstart", function (d) {
@@ -78,13 +93,13 @@ function pcVis(data, dataDict, classes) {
                     });
                     x.domain(dimensions);
                     g.attr("transform", function (d) {
-                        return "translate(" + position(d) + ")";
+                        return "translate(" + position(d) + ", 50)";
                     })
                 })
                 .on("dragend", function (d) {
                     delete this.__origin__;
                     delete dragging[d];
-                    transition(d3.select(this)).attr("transform", "translate(" + x(d) + ")");
+                    transition(d3.select(this)).attr("transform", "translate(" + x(d) + "," + title_spacing + ")");
                     transition(foreground)
                         .attr("d", path);
                     background
