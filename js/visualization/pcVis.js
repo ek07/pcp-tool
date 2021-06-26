@@ -4,9 +4,12 @@
  */
 
 function pcVis(data, dataDict, classes) {
-    var m = [30, 10, 10, 10], //margin
-        w = 960 - m[1] - m[3],
-        h = 400 - m[0] - m[2],
+    var numCols = 3;
+    console.log($(window).width());
+    var m = [30, 10, 10, 10], //margin: top, right, bottom, left
+        // w = 550 - m[1] - m[3], // orig: 960
+        w = 650 - m[1] - m[3];
+        h = 400 - m[0] - m[2], // orig: 500
         title_spacing = 40;
 
     var x = d3.scale.ordinal().rangePoints([0, w], 1),
@@ -18,7 +21,8 @@ function pcVis(data, dataDict, classes) {
         background,
         foreground;
 
-    document.getElementById("targetPC").className = "show";
+    // document.getElementById("targetPC").className = "grid";
+
     var colours = d3.scale.category10();
 
     for (i=0; i<classes.length; i++){
@@ -34,7 +38,9 @@ function pcVis(data, dataDict, classes) {
                 .range([h, 0]));
         }));
 
-        var svg = d3.select("#targetPC").append("svg")
+        var svg = d3.select("#targetPC").append("div")
+            .attr("class", "pc")
+            .append("svg")
             .attr("width", w + m[1] + m[3])
             .attr("height", h + m[0] + m[2] + title_spacing)
             .append("g")
@@ -93,7 +99,7 @@ function pcVis(data, dataDict, classes) {
                     });
                     x.domain(dimensions);
                     g.attr("transform", function (d) {
-                        return "translate(" + position(d) + ", 50)";
+                        return "translate(" + position(d) + "," + title_spacing + ")";
                     })
                 })
                 .on("dragend", function (d) {
@@ -109,6 +115,7 @@ function pcVis(data, dataDict, classes) {
                         .duration(0)
                         .attr("visibility", null);
                 }));
+
 
         // Add an axis and title.
         g.append("g")

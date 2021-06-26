@@ -23,14 +23,14 @@
     <div class="content-wrapper">
         <div class="main-content alternate-colors">
             <div id="folder-structure" class="content-row">
-                <div class="content-row__content">
+                <!-- <div class="content-row__content"> -->
                         <h3 class="heading">Load data (.csv)</h3>
                         <ul>
                             <li> The first column needs to contain the class.</li>
                             <li> Computing time increases factorially with larger number of dimensions.</li>
                         </ul>
 
-                        <p><input class="form-control" id="files" required="" type="file" accept=".csv" value="TestData/cars.csv"></p>
+                        <p><input class="form-control" id="files" required="" type="file" accept=".csv"></p>
 
                         <h3 class="heading">Select feature vector type</h3>
                         <select id="feature-vector">
@@ -42,13 +42,12 @@
 
                       <br><br>
 
-                      <button id="submit" class="btn btn-default" type="submit">Submit</button>
+                      <button id="submit"  type="submit">Submit</button>
                       <!-- <input type="button" class="btn btn-default" value="Refresh Page" onClick="window.location.reload()"> -->
-                      <div class="hidden" id="targetPC"></div>
+                      <div class="grid" id="targetPC"></div>
                       <br>
                       <br>
-                      <div id="app"></div>
-                  </div>
+                <!-- </div> -->
             </div>
         </div>
     </div>

@@ -40,6 +40,15 @@ body {
   font-family: "Roboto", helvetiva, sans-serif;
   font-size: 1.7rem;
   color: #232323;
+  background-color: #F5F5F5;
+}
+
+.form-control{
+  background-color: #F5F5F5;
+}
+
+button {
+  padding: 0px 5px 0px 5px;
 }
 
 img {
@@ -850,9 +859,9 @@ h2.hero__header {
   display: -webkit-flex;
   display: -ms-flex;
   display: flex;
-  -webkit-align-items: center;
-  -ms-align-items: center;
-  align-items: center;
+  -webkit-align-items: left;
+  -ms-align-items: left;
+  align-items: left;
 }
 
 .hero--home .hero__header {
