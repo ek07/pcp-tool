@@ -39,7 +39,7 @@ function visualization(results) {
     var fileName = document.getElementById('files').files[0].name.slice(0, -4);
 
     //disableButton(document.getElementById("submit"));
-    d3.select("#targetPC").selectAll("svg").remove();
+    d3.select("#targetPC").selectAll("div").remove();
     $("div.wrapper").remove();
 
     var data = results.data;
