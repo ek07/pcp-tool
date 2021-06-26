@@ -737,7 +737,8 @@ ul.no-list-style {
   display: flex;
   -webkit-justify-content: space-between;
   -ms-justify-content: space-between;
-  justify-content: space-between;
+  /*justify-content: space-between;*/
+  justify-content: center;
   -webkit-align-items: flex-end;
   -ms-align-items: flex-end;
   align-items: flex-end;
@@ -775,7 +776,7 @@ ul.no-list-style {
   vertical-align: bottom;
   font-size: 3.2rem;
   line-height: 3.2rem;
-  padding-right: 100px;
+  /*padding-right: 100px;*/
 }
 
 .header__logo__link {

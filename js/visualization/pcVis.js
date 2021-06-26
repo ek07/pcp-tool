@@ -6,7 +6,7 @@
 function pcVis(data, dataDict, classes) {
     var numCols = 3;
     console.log($(window).width());
-    var m = [30, 10, 10, 10], //margin: top, right, bottom, left
+    var m = [30, 50, 10, 10], //margin: top, right, bottom, left
         // w = 550 - m[1] - m[3], // orig: 960
         w = 650 - m[1] - m[3];
         h = 400 - m[0] - m[2], // orig: 500
@@ -53,7 +53,7 @@ function pcVis(data, dataDict, classes) {
             .attr("x", "50%")
             .attr("y", 0)
             .attr("text-anchor", "middle")
-            .attr("font-size", 20);
+            .attr("font-size", 18);
 
         // Add grey background lines for context.
         background = svg.append("g")
