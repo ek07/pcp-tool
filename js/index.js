@@ -29,6 +29,35 @@ $(document).ready(function () {
 
 });
 
+/**
+ * Reorder data
+ */
+$(document).ready(function () {
+    $('#reorder').on("click", function (e) {
+        console.log($('#files'))
+        e.preventDefault();
+        // If there is no data input
+        if (!$('#files')[0].files.length) {
+            alert("Please choose at least one file to read the data.");
+        }
+
+        $('#files').parse({
+            config: {
+                delimiter: "auto",
+                complete: visualization
+            },
+            before: function (file, inputElem) {
+                //console.log("Parsing file...", file);
+            },
+            error: function (err, file) {
+                console.log("ERROR:", err, file);
+            },
+            complete: function () {
+            }
+        });
+    });
+
+});
 
 /**
  * Main Function
@@ -41,6 +70,7 @@ function visualization(results) {
     //disableButton(document.getElementById("submit"));
     d3.select("#targetPC").selectAll("div").remove();
     $("div.wrapper").remove();
+
 
     var data = results.data;
 

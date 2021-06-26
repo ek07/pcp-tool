@@ -5,7 +5,7 @@
 
 function pcVis(data, dataDict, classes) {
     var numCols = 3;
-    console.log($(window).width());
+    console.log("Win width(px): " + $(window).width());
     var m = [30, 50, 10, 10], //margin: top, right, bottom, left
         // w = 550 - m[1] - m[3], // orig: 960
         w = 650 - m[1] - m[3];
@@ -21,14 +21,39 @@ function pcVis(data, dataDict, classes) {
         background,
         foreground;
 
+// 1,2,4,3
     // document.getElementById("targetPC").className = "grid";
+    document.getElementById("dim-div").className = "show";
+    var dim_order;
+    var dim_length = d3.keys(dataDict[classes[0]][0]).length;
 
+    var dim_order_string = document.getElementById("dim-order").value;
+
+    if (dim_order_string == ""){
+        dim_order = numberRange(1, dim_length+1);
+        document.getElementById("dim-order").value=numberRangeToString(dim_order);
+    } else{
+        dim_order = stringToNumberRange(dim_order_string);
+
+        if (!dimOrderValid(dim_order, dim_length)){
+            alert("Invalid dim order.");
+            return false;
+        }
+    }
+
+
+    // Colors for different classes
     var colours = d3.scale.category10();
 
     for (i=0; i<classes.length; i++){
         class_name = classes[i];
-        var dataset = dataDict[class_name];
+        var dataset_orig = dataDict[class_name];
 
+        var dataset = reorder(dataset_orig, dim_order);
+        // var dataset = dataset_orig;
+        console.log(dim_order);
+        console.log(dataset);
+        // console.log(datasetn);
         // Extract the list of dimensions and create a scale for each.
         x.domain(dimensions = d3.keys(dataset[0]).filter(function (d) {
             return d !== "class" && (y[d] = d3.scale.linear()

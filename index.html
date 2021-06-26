@@ -39,11 +39,18 @@
                             <option value="histogram" id="2">Histogram</option>
                         </select>
                       <br>
-
-                      <br><br>
-
+                      <br>
                       <button id="submit"  type="submit">Submit</button>
-                      <!-- <input type="button" class="btn btn-default" value="Refresh Page" onClick="window.location.reload()"> -->
+
+                      <!-- <input id="submit" value="Refresh Page" onClick="window.location.reload()"> -->
+
+                      <div class="hidden" id="dim-div"> 
+                        <br>
+                        <label>Dimension order: </label>
+                        <input type="text" id="dim-order" value="">
+                        <button id="reorder"  type="submit">Reorder</button>
+                      </div>
+
                       <div class="grid" id="targetPC"></div>
                       <br>
                       <br>

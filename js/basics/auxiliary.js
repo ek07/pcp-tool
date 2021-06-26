@@ -671,4 +671,59 @@ function standardDeviation(numbersArr) {
 }
 
 
+function numberRange (start, end) {
+    return new Array(end - start).fill().map((d, i) => i + start);
+}
 
+function numberRangeToString(rangeArray) {
+    return rangeArray.join();
+}
+
+function stringToNumberRange(numberString) {
+    return numberString.split(",").map(item => item.trim());
+}
+
+function dimOrderValid(dim_order, expected_dim_length){
+    if (dim_order.length!=expected_dim_length){
+        return false;
+    }
+    
+    // Check all values in dim order are between 1-dim_length+1
+    // and that they all appear only once.
+    var valid_range = numberRange(1, expected_dim_length+1);
+    var sorted_dim_order = dim_order.slice(0).sort();
+
+    for (i=0; i<dim_order.length; i++){
+        if (sorted_dim_order[i]!=valid_range[i]){
+            return false;
+        }
+    }
+
+    return true;
+}
+
+function reorder(data, dim_order){
+    keys = d3.keys(data[0]);
+
+    reordered_keys = [];
+    new_keys = [];
+
+    for (i=0; i<keys.length; i++){
+        key_val = keys[dim_order[i]-1];
+        reordered_keys.push(key_val);
+        new_keys.push(key_val + "(" + dim_order[i] + ")");
+    }
+
+    var i = 0, k = 0,
+        newObj = null,
+        output = [];
+
+    for (i = 0; i < data.length; i++) {
+        newObj = {};
+        for (k = 0; k < keys.length; k++) {
+            newObj[reordered_keys[k]] = data[i][reordered_keys[k]];
+        }
+        output.push(newObj);
+    }
+    return output;
+}
