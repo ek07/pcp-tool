@@ -671,18 +671,22 @@ function standardDeviation(numbersArr) {
 }
 
 
+// (0, 3) => 0,1,2
 function numberRange (start, end) {
     return new Array(end - start).fill().map((d, i) => i + start);
 }
 
+// [1,2,3] => "1,2,3"
 function numberRangeToString(rangeArray) {
     return rangeArray.join();
 }
 
+// "1,2,3,4" => [1,2,3,4]
 function stringToNumberRange(numberString) {
-    return numberString.split(",").map(item => item.trim());
+    return numberString.split(",").map(item => parseInt(item.trim()));
 }
 
+// check if user-entered dimension order is valid
 function dimOrderValid(dim_order, expected_dim_length){
     if (dim_order.length!=expected_dim_length){
         return false;
@@ -690,7 +694,7 @@ function dimOrderValid(dim_order, expected_dim_length){
     
     // Check all values in dim order are between 1-dim_length+1
     // and that they all appear only once.
-    var valid_range = numberRange(1, expected_dim_length+1);
+    var valid_range = numberRange(0, expected_dim_length);
     var sorted_dim_order = dim_order.slice(0).sort();
 
     for (i=0; i<dim_order.length; i++){
@@ -702,6 +706,7 @@ function dimOrderValid(dim_order, expected_dim_length){
     return true;
 }
 
+// reorder data for a class
 function reorder_data(data, dim_order){
     keys = d3.keys(data[0]);
 
@@ -709,7 +714,7 @@ function reorder_data(data, dim_order){
     new_keys = [];
 
     for (i=0; i<keys.length; i++){
-        key_val = keys[dim_order[i]-1];
+        key_val = keys[dim_order[i]];
         reordered_keys.push(key_val);
 
          nk = key_val + "(" + dim_order[i] + ")";
@@ -732,6 +737,7 @@ function reorder_data(data, dim_order){
     return output;
 }
 
+// reorder entire dataset. used for getting minmaxes
 function reorder_whole_ds(data, dim_order){
     keys = d3.keys(data[0]);
 
@@ -741,7 +747,7 @@ function reorder_whole_ds(data, dim_order){
     new_keys.push(keys[0]);
 
     for (i=0; i<dim_order.length; i++){
-        key_val = keys[dim_order[i]];
+        key_val = keys[dim_order[i]+1];
         reordered_keys.push(key_val);
 
         nk = key_val + "(" + dim_order[i] + ")";

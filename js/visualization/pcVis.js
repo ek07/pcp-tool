@@ -30,7 +30,7 @@ function pcVis(data, dataDict, classes) {
     var dim_order_string = document.getElementById("dim-order").value;
 
     if (dim_order_string == ""){
-        dim_order = numberRange(1, dim_length+1);
+        dim_order = numberRange(0, dim_length);
         document.getElementById("dim-order").value=numberRangeToString(dim_order);
     } else{
         dim_order = stringToNumberRange(dim_order_string);
