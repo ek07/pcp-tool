@@ -1,11 +1,37 @@
 /**
  * Read csv data
  */
-$(document).ready(function () {
+// $(document).ready(function () {
+//     $('#submit, #reorder').on("click", function (e) {
+//         // console.log($('#files'))
+//         e.preventDefault();
+//         // If there is no data input
+//         if (!$('#files')[0].files.length) {
+//             alert("Please choose at least one file to read the data.");
+//         }
 
-    $('#submit').on("click", function (e) {
-        console.log($('#files'))
+//         $('#files').parse({
+//             config: {
+//                 delimiter: "auto",
+//                 complete: visualization
+//             },
+//             before: function (file, inputElem) {
+//             },
+//             error: function (err, file) {
+//                 console.log("ERROR:", err, file);
+//             }
+//         });
+//         e.stopPropagation();
+//         return false;
+//     });
+// });
+
+$(document).ready(function(){
+    $('#submit, #reorder').click(function (e) {
+        // console.log($('#files'))
         e.preventDefault();
+        e.stopPropagation();
+
         // If there is no data input
         if (!$('#files')[0].files.length) {
             alert("Please choose at least one file to read the data.");
@@ -17,47 +43,45 @@ $(document).ready(function () {
                 complete: visualization
             },
             before: function (file, inputElem) {
-                //console.log("Parsing file...", file);
             },
             error: function (err, file) {
                 console.log("ERROR:", err, file);
-            },
-            complete: function () {
             }
+            // complete: function (file, e) {
+            //     e.stopPropagation();
+            //     return false;
+            // }
         });
+        return false;
     });
-
 });
 
-/**
- * Reorder data
- */
-$(document).ready(function () {
-    $('#reorder').on("click", function (e) {
-        console.log($('#files'))
-        e.preventDefault();
-        // If there is no data input
-        if (!$('#files')[0].files.length) {
-            alert("Please choose at least one file to read the data.");
-        }
+// function load_data(e){
+//     e.preventDefault();
+//     e.stopPropagation();
 
-        $('#files').parse({
-            config: {
-                delimiter: "auto",
-                complete: visualization
-            },
-            before: function (file, inputElem) {
-                //console.log("Parsing file...", file);
-            },
-            error: function (err, file) {
-                console.log("ERROR:", err, file);
-            },
-            complete: function () {
-            }
-        });
-    });
+//     // If there is no data input
+//     if (!$('#files')[0].files.length) {
+//         alert("Please choose at least one file to read the data.");
+//     }
 
-});
+//     $('#files').parse({
+//         config: {
+//             delimiter: "auto",
+//             complete: visualization
+//         },
+//         before: function (file, inputElem) {
+//         },
+//         error: function (err, file) {
+//             console.log("ERROR:", err, file);
+//         }
+//         // complete: function (file, e) {
+//         //     e.stopPropagation();
+//         //     return false;
+//         // }
+//     });
+//     return false;
+// }
 
 /**
  * Main Function
@@ -69,7 +93,7 @@ function visualization(results) {
 
     //disableButton(document.getElementById("submit"));
     d3.select("#targetPC").selectAll("div").remove();
-    $("div.wrapper").remove();
+    // $("div.wrapper").remove();
 
 
     var data = results.data;
@@ -138,7 +162,6 @@ function visualization(results) {
 
         pcVis(objArray, classDict, classes);
     }
-
 }
 
 

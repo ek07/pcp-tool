@@ -41,7 +41,6 @@ function pcVis(data, dataDict, classes) {
         }
     }
 
-
     // Colors for different classes
     var colours = d3.scale.category10();
 
