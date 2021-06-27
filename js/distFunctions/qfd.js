@@ -48,7 +48,6 @@ function meanStdFV(classDict, classes){
                 }
             }
         }
-        console.log(raw_values)
 
         var feature_vec = [];
         for (col=0; col<raw_values.length; col++){
@@ -93,4 +92,50 @@ function qfd(){
 
 }
 
-//
+// Generate distance matrix for dimension axes
+function dimensionDistMatrix(numDims){
+    var dist_matrix = math.zeros([numDims, numDims]);
+    console.log(dist_matrix)
+    var max_dist = numDims-1;
+
+    for (i=0; i<numDims; i++){
+        for (j=0; j<numDims; j++){
+            bin_dist = math.abs(i-j);
+            dist_matrix[i][j] = 1 - (bin_dist/max_dist);
+        }
+    }
+
+    return dist_matrix;
+}
+
+// Distance functions for comparing feature vectors
+function fvDist(fv1, fv2, dist_type){
+    if (dist_type=="minus"){
+        return math.subtract(fv1, fv2);
+    }
+    else if (dist_type=="euclidean2d"){
+        return euclidean2d(fv1, fv2);
+    }
+    else if (dist_type=="end"){
+        // try this: https://github.com/nklb/wasserstein-distance/blob/master/ws_distance.m
+    }
+}
+
+// Euclidean dist between 2 2d-arrays
+function euclidean2d(fv1, fv2) {
+    var distance_array = [];
+
+    for (var dim=0; dim < fv1.length; dim++) {
+        var distance = 0;
+        var fv1_dim = fv1[dim];
+        var fv2_dim = fv2[dim];
+
+        for (var i=0; i<fv1_dim.length; i++){
+            var temp = Math.pow(fv1_dim[i] - fv2_dim[i], 2);
+            distance = distance + temp;
+        }
+        distance_array.push(math.sqrt(distance));
+    }
+    console.log(distance_array)
+    return distance_array;
+}

@@ -124,24 +124,31 @@ function computeDist(results) {
         var classes = getClasses(normalizedArr);
         var objArray = convertToArrayOfObjects(normalizedArr); // better way to do this?
         var classDict = convertToClassDict(normalizedArr, classes);
+        var numDimensions = d3.keys(classDict[classes[0]][0]).length;
 
-        console.log(objArray);
-        console.log(classDict)
         var featureVectorType = document.getElementById("feature-vector").value;
 
-        var featureVector = null;
+        var featureVector, dist_type;
 
         if (featureVectorType=="mean") {
             featureVector = meanFV(classDict, classes);
+            dist_type = "minus"
+            var dist = fvDist(featureVector[classes[0]], featureVector[classes[1]], dist_type);
+            console.log(dist)
         } 
         else if (featureVectorType=="mean_std"){
             featureVector = meanStdFV(classDict, classes);
+            dist_type = "euclidean2d"
+            var dist = fvDist(featureVector[classes[0]], featureVector[classes[1]], dist_type);
+            console.log(dist)
         } 
         else if (featureVectorType=="hist"){
             featureVector = histFV(classDict, classes);
+            dist_type = "euclidean2d"
         }
 
-        console.log(featureVector)
+        var dimDistMatrix = dimensionDistMatrix(numDimensions);
+
     }
 
 }
