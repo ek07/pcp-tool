@@ -18,8 +18,9 @@ $(document).ready(function(){
                 complete: visualization
             },
             before: function (file, inputElem) {
-                console.log(this.id)
-                document.getElementById("dim-order").value = "";
+                if (e.target.id=="submit"){
+                    document.getElementById("dim-order").value = "";
+                }
             },
             error: function (err, file) {
                 console.log("ERROR:", err, file);

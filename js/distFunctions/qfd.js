@@ -226,12 +226,12 @@ function computeDistSingle(dataArray) {
             }
         }
 
-        var mean_qfd = total_qfd/class_combinations.length;
+        var total_qfd = total_qfd// /class_combinations.length;
 
-        document.getElementById("qfd_value").innerHTML = mean_qfd.toFixed(3); 
+        document.getElementById("qfd_value").innerHTML = total_qfd.toFixed(3); 
 
 
         // Get poly line dist
-        
+
     }
 }
