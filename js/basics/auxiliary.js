@@ -769,3 +769,37 @@ function reorder_whole_ds(data, dim_order){
     }
     return output;
 }
+
+// take raw values from csv file and convert to an array of objects
+function rawDataToDataArray(data){
+    var dataArray = [[]];
+    // var simMeasure = document.getElementById("similarity").value;
+    var hasNullValue = [];
+
+    //construct the data array
+    for (var i = 0; i < data.length; i++) {
+        var row = data[i];
+        dataArray[i] = row;
+        var cells = row.join(",").split(",");
+        for (var j = 0; j < cells.length; j++) {
+            dataArray[i][j] = cells[j];
+        }
+    }
+
+    // delete rows with null value(s)
+    for (var a = 1; a < dataArray.length; a++) {
+        for (var b = 0; b < dataArray[0].length; b++) {
+            if (dataArray[a][b] === "") {
+                hasNullValue.push(a);
+                break;
+            }
+        }
+    }
+    var deleted = 0;
+    for (var index = 0; index < hasNullValue.length; index++) {
+        dataArray.splice(hasNullValue[index] - deleted, 1);
+        deleted++;
+    }
+
+    return dataArray;
+}

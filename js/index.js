@@ -1,31 +1,6 @@
 /**
  * Read csv data
  */
-// $(document).ready(function () {
-//     $('#submit, #reorder').on("click", function (e) {
-//         // console.log($('#files'))
-//         e.preventDefault();
-//         // If there is no data input
-//         if (!$('#files')[0].files.length) {
-//             alert("Please choose at least one file to read the data.");
-//         }
-
-//         $('#files').parse({
-//             config: {
-//                 delimiter: "auto",
-//                 complete: visualization
-//             },
-//             before: function (file, inputElem) {
-//             },
-//             error: function (err, file) {
-//                 console.log("ERROR:", err, file);
-//             }
-//         });
-//         e.stopPropagation();
-//         return false;
-//     });
-// });
-
 $(document).ready(function(){
     $('#submit, #reorder').click(function (e) {
         // console.log($('#files'))
@@ -52,6 +27,31 @@ $(document).ready(function(){
             //     return false;
             // }
         });
+        return false;
+    });
+});
+
+// Compute QFD
+$(document).ready(function () {
+    $('#compute-dist').on("click", function (e) {
+        e.preventDefault();
+        // If there is no data input
+        if (!$('#files')[0].files.length) {
+            alert("Please choose at least one file to read the data.");
+        }
+
+        $('#files').parse({
+            config: {
+                delimiter: "auto",
+                complete: computeDist
+            },
+            before: function (file, inputElem) {
+            },
+            error: function (err, file) {
+                console.log("ERROR:", err, file);
+            }
+        });
+        e.stopPropagation();
         return false;
     });
 });
@@ -84,72 +84,17 @@ $(document).ready(function(){
 // }
 
 /**
- * Main Function
+ * Main Function to visualize pcp
  * @param results
  */
 function visualization(results) {
-
     var fileName = document.getElementById('files').files[0].name.slice(0, -4);
 
     //disableButton(document.getElementById("submit"));
-    d3.select("#targetPC").selectAll("div").remove();
     // $("div.wrapper").remove();
 
-
-    var data = results.data;
-
-    var dataArray = [[]];
-    // var simMeasure = document.getElementById("similarity").value;
-    var hasNullValue = [];
-
-    //construct the data array
-    for (var i = 0; i < data.length; i++) {
-        var row = data[i];
-        dataArray[i] = row;
-        var cells = row.join(",").split(",");
-        for (var j = 0; j < cells.length; j++) {
-            dataArray[i][j] = cells[j];
-        }
-    }
-
-    // delete rows with null value(s)
-    for (var a = 1; a < dataArray.length; a++) {
-        for (var b = 0; b < dataArray[0].length; b++) {
-            if (dataArray[a][b] === "") {
-                hasNullValue.push(a);
-                break;
-            }
-        }
-    }
-    var deleted = 0;
-    for (var index = 0; index < hasNullValue.length; index++) {
-        dataArray.splice(hasNullValue[index] - deleted, 1);
-        deleted++;
-    }
-
-    //get feature vector type
-    var featureVectorType = document.getElementById("feature-vector").value;
-    // var normArr = getNormalizedArr(dataArray);
-
-    // switch (selectedMethod) {
-    //     // Mean
-    //     case "0":
-    //         console.log("you have chosen " + document.getElementById("0").innerHTML + ".");
-    //         featureVectorType = "Mean";
-    //         break;
-
-    //     // Mean +- std
-    //     case "1":
-    //         console.log("you have chosen " + document.getElementById("1").innerHTML + ".");
-    //         featureVectorType = "Mean +- Std";
-    //         break;
-
-    //     // Histogram feature vector
-    //     case "2":
-    //         console.log("you have chosen " + document.getElementById("2").innerHTML + ".");
-    //         featureVectorType = "Histogram";
-    //         break;
-    // }
+    d3.select("#targetPC").selectAll("div").remove();
+    var dataArray = rawDataToDataArray(results.data);
 
     if (dataArray !== undefined) {
         dataArray[0][0] = "class";
@@ -164,7 +109,39 @@ function visualization(results) {
     }
 }
 
+/**
+ * Compute and create table with dist results
+ * @param results
+ */
+function computeDist(results) {
+    var fileName = document.getElementById('files').files[0].name.slice(0, -4);
+    var dataArray = rawDataToDataArray(results.data);
 
+    if (dataArray !== undefined) {
+        dataArray[0][0] = "class";
+        var normalizedArr = getNormalizedArr(dataArray);
+        // var visArr = deepCopy(dataArray);
+        var classes = getClasses(normalizedArr);
+        var objArray = convertToArrayOfObjects(normalizedArr); // better way to do this?
+        var classDict = convertToClassDict(normalizedArr, classes);
 
+        console.log(objArray);
+        console.log(classDict)
+        var featureVectorType = document.getElementById("feature-vector").value;
 
+        var featureVector = null;
 
+        if (featureVectorType=="mean") {
+            featureVector = meanFV(classDict, classes);
+        } 
+        else if (featureVectorType=="mean_std"){
+            featureVector = meanStdFV(classDict, classes);
+        } 
+        else if (featureVectorType=="hist"){
+            featureVector = histFV(classDict, classes);
+        }
+
+        console.log(featureVector)
+    }
+
+}

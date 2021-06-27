@@ -50,8 +50,7 @@ function pcVis(data, dataDict, classes) {
 
         var dataset = reorder_data(dataset_orig, dim_order);
         var reordered_data = reorder_whole_ds(data, dim_order);
-        console.log(reordered_data);
-        // console.log(datasetn);
+
         // Extract the list of dimensions and create a scale for each.
         x.domain(dimensions = d3.keys(dataset[0]).filter(function (d) {
             return d !== "class" && (y[d] = d3.scale.linear()
