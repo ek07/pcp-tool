@@ -21,7 +21,7 @@ function pcVis(data, dataDict, classes) {
         background,
         foreground;
 
-// 1,2,4,3
+
     // document.getElementById("targetPC").className = "grid";
     document.getElementById("dim-div").className = "show";
     var dim_order;
@@ -43,13 +43,13 @@ function pcVis(data, dataDict, classes) {
 
     // Colors for different classes
     var colours = d3.scale.category10();
+    var reordered_data = reorder_whole_ds(data, dim_order);
 
     for (i=0; i<classes.length; i++){
         class_name = classes[i];
         var dataset_orig = dataDict[class_name];
 
         var dataset = reorder_data(dataset_orig, dim_order);
-        var reordered_data = reorder_whole_ds(data, dim_order);
 
         // Extract the list of dimensions and create a scale for each.
         x.domain(dimensions = d3.keys(dataset[0]).filter(function (d) {
@@ -170,19 +170,19 @@ function pcVis(data, dataDict, classes) {
         return g.transition().duration(500);
     }
 
-// Returns the path for a given data point.
+    // Returns the path for a given data point.
     function path(d) {
         return line(dimensions.map(function (p) {
             return [position(p), y[p](d[p])];
         }));
     }
 
-// When brushing, don’t trigger axis dragging.
+    // When brushing, don’t trigger axis dragging.
     function brushstart() {
         d3.event.sourceEvent.stopPropagation();
     }
 
-// Handles a brush event, toggling the display of foreground lines.
+    // Handles a brush event, toggling the display of foreground lines.
     function brush() {
         var actives = dimensions.filter(function (p) {
                 return !y[p].brush.empty();

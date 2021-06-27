@@ -789,7 +789,7 @@ function rawDataToDataArray(data){
     // delete rows with null value(s)
     for (var a = 1; a < dataArray.length; a++) {
         for (var b = 0; b < dataArray[0].length; b++) {
-            if (dataArray[a][b] === "") {
+            if (dataArray[a][b] === "" || dataArray[a][b] === "?") {
                 hasNullValue.push(a);
                 break;
             }
@@ -802,4 +802,23 @@ function rawDataToDataArray(data){
     }
 
     return dataArray;
+}
+
+
+// Get permutations of dim orderings. 
+// Use a generator since number of perms grow factorially
+// From: https://stackoverflow.com/a/32551801
+function permute(arr) {
+  var l = arr.length,
+      used = Array(l),
+      data = Array(l);
+  return function* backtracking(pos) {
+    if(pos == l) yield data.slice();
+    else for(var i=0; i<l; ++i) if(!used[i]) {
+      used[i] = true;
+      data[pos] = arr[i];
+      yield* backtracking(pos+1);
+      used[i] = false;
+    }
+  }(0);
 }

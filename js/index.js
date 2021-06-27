@@ -18,6 +18,8 @@ $(document).ready(function(){
                 complete: visualization
             },
             before: function (file, inputElem) {
+                console.log(this.id)
+                document.getElementById("dim-order").value = "";
             },
             error: function (err, file) {
                 console.log("ERROR:", err, file);
@@ -30,6 +32,39 @@ $(document).ready(function(){
         return false;
     });
 });
+
+// /**
+//  * Read csv data
+//  */
+// $(document).ready(function(){
+//     $('#reorder').click(function (e) {
+//         // console.log($('#files'))
+//         e.preventDefault();
+//         e.stopPropagation();
+
+//         // If there is no data input
+//         if (!$('#files')[0].files.length) {
+//             alert("Please choose at least one file to read the data.");
+//         }
+
+//         $('#files').parse({
+//             config: {
+//                 delimiter: "auto",
+//                 complete: visualization
+//             },
+//             before: function (file, inputElem) {
+//             },
+//             error: function (err, file) {
+//                 console.log("ERROR:", err, file);
+//             }
+//             // complete: function (file, e) {
+//             //     e.stopPropagation();
+//             //     return false;
+//             // }
+//         });
+//         return false;
+//     });
+// });
 
 // Compute QFD
 $(document).ready(function () {
@@ -104,8 +139,8 @@ function visualization(results) {
         var classDict = convertToClassDict(visArr, classes);
 
         // console.log(classDict);
-
         pcVis(objArray, classDict, classes);
+        computeDistSingle(dataArray);
     }
 }
 
@@ -125,7 +160,7 @@ function computeDist(results) {
         var objArray = convertToArrayOfObjects(normalizedArr); // better way to do this?
         var classDict = convertToClassDict(normalizedArr, classes);
         var numDimensions = d3.keys(classDict[classes[0]][0]).length;
-
+        console.log(classDict)
         var featureVectorType = document.getElementById("feature-vector").value;
 
         var featureVector, dist_type;
@@ -133,12 +168,16 @@ function computeDist(results) {
         if (featureVectorType=="mean") {
             featureVector = meanFV(classDict, classes);
             dist_type = "minus"
+            console.log(featureVector[classes[0]])
+            console.log(featureVector[classes[1]])
             var dist = fvDist(featureVector[classes[0]], featureVector[classes[1]], dist_type);
             console.log(dist)
         } 
         else if (featureVectorType=="mean_std"){
             featureVector = meanStdFV(classDict, classes);
             dist_type = "euclidean2d"
+            console.log(featureVector[classes[0]])
+            console.log(featureVector[classes[1]])
             var dist = fvDist(featureVector[classes[0]], featureVector[classes[1]], dist_type);
             console.log(dist)
         } 
@@ -149,6 +188,16 @@ function computeDist(results) {
 
         var dimDistMatrix = dimensionDistMatrix(numDimensions);
 
+        var permutation_generator = permute(numberRange(0, classes.length));
+        
+        // Example of how to use perm gen //
+        // done = false;
+        // while (!done){
+        //     res = permutation_generator.next()
+        //     val = res.value
+        //     done = res.done
+        //     console.log(val);
+        // }
+        
     }
-
 }

@@ -95,7 +95,6 @@ function qfd(){
 // Generate distance matrix for dimension axes
 function dimensionDistMatrix(numDims){
     var dist_matrix = math.zeros([numDims, numDims]);
-    console.log(dist_matrix)
     var max_dist = numDims-1;
 
     for (i=0; i<numDims; i++){
@@ -138,4 +137,101 @@ function euclidean2d(fv1, fv2) {
     }
     console.log(distance_array)
     return distance_array;
+}
+
+/**
+ * Compute and qfd for specific ordering
+ * @param results
+ */
+function computeDistSingle(dataArray) {
+    if (dataArray !== undefined) {
+
+        var normalizedArr = getNormalizedArr(dataArray);
+        var classes = getClasses(normalizedArr);
+        var objArray = convertToArrayOfObjects(normalizedArr); // better way to do this?
+        var classDict = convertToClassDict(normalizedArr, classes);
+        var numDimensions = d3.keys(classDict[classes[0]][0]).length;
+
+        var featureVectorType = document.getElementById("feature-vector").value;
+
+        var featureVector, dist_type;
+
+        if (featureVectorType=="mean") {
+            featureVector = meanFV(classDict, classes);
+            dist_type = "minus"
+            console.log(featureVector)
+            // console.log(featureVector[classes[0]])
+            // console.log(featureVector[classes[1]])
+            // var dist = fvDist(featureVector[classes[0]], featureVector[classes[1]], dist_type);
+            // console.log(dist)
+        } 
+        else if (featureVectorType=="mean_std"){
+            featureVector = meanStdFV(classDict, classes);
+            dist_type = "euclidean2d"
+            var dist = fvDist(featureVector[classes[0]], featureVector[classes[1]], dist_type);
+
+        } 
+        else if (featureVectorType=="hist"){
+            featureVector = histFV(classDict, classes);
+            dist_type = "euclidean2d"
+        }
+
+        // generate dist between dimensions
+        var dimDistMatrix = dimensionDistMatrix(numDimensions);
+
+        // Get dim order
+        var dim_order;
+        var dim_length = d3.keys(classDict[classes[0]][0]).length;
+        var dim_order_string = document.getElementById("dim-order").value;
+
+        if (dim_order_string == ""){
+            dim_order = numberRange(0, dim_length);
+            document.getElementById("dim-order").value=numberRangeToString(dim_order);
+        } else{
+            dim_order = stringToNumberRange(dim_order_string);
+        }
+
+        // Reorder FV
+        var class_keys = Object.keys(featureVector);
+        var reordered_fvs = {};
+
+        for (ck=0; ck<class_keys.length; ck++){
+            var fv_temp = featureVector[class_keys[ck]];
+            var temp = [];
+            for (i=0;i<dim_order.length;i++){
+                temp.push(fv_temp[dim_order[i]]);
+            }
+            reordered_fvs[class_keys[ck]] = temp;
+        }
+
+        var class_combinations = k_combinations(class_keys, 2)
+        var total_qfd = 0;
+        
+        // Get total weight
+        var total_weight = (dataArray.length-1) * (class_combinations.length-1);
+
+        for (c=0; c<class_combinations.length; c++){
+            // Calculate QFD
+            var class1 = class_combinations[c][0];
+            var class2 = class_combinations[c][1];
+            var class1_size = classDict[class1].length;
+            var class2_size = classDict[class2].length;
+
+            var dist = fvDist(reordered_fvs[class1], reordered_fvs[class2], dist_type);
+
+            if (featureVectorType=="mean"){
+                qfd = Math.sqrt(math.multiply(math.multiply(dist, dimDistMatrix), dist))
+                weighted_qfd = qfd*(class1_size+class2_size)/total_weight;
+                total_qfd += weighted_qfd;
+            }
+        }
+
+        var mean_qfd = total_qfd/class_combinations.length;
+
+        document.getElementById("qfd_value").innerHTML = mean_qfd.toFixed(3); 
+
+
+        // Get poly line dist
+        
+    }
 }
