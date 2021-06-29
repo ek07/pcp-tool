@@ -5,7 +5,5 @@ Ordering algorithm:
 - Partitioning
 
 UI
-- User input dimension order
-- Displays quality metrics
 - Shared highlighting
 - Specifiable number of columns

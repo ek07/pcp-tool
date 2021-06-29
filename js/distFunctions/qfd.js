@@ -143,7 +143,7 @@ function euclidean2d(fv1, fv2) {
  * Compute and qfd for specific ordering
  * @param results
  */
-function computeDistSingle(dataArray) {
+function computeDistSingle(dataArray, current_pcp_id) {
     if (dataArray !== undefined) {
 
         var normalizedArr = getNormalizedArr(dataArray);
@@ -182,11 +182,13 @@ function computeDistSingle(dataArray) {
         // Get dim order
         var dim_order;
         var dim_length = d3.keys(classDict[classes[0]][0]).length;
-        var dim_order_string = document.getElementById("dim-order").value;
+        var dim_or = `dim-order${current_pcp_id}`;
+        console.log(dim_or)
+        var dim_order_string = document.getElementById(dim_or).value;
 
         if (dim_order_string == ""){
             dim_order = numberRange(0, dim_length);
-            document.getElementById("dim-order").value=numberRangeToString(dim_order);
+            document.getElementById(dim_or).value=numberRangeToString(dim_order);
         } else{
             dim_order = stringToNumberRange(dim_order_string);
         }
@@ -228,7 +230,8 @@ function computeDistSingle(dataArray) {
 
         var total_qfd = total_qfd// /class_combinations.length;
 
-        document.getElementById("qfd_value").innerHTML = total_qfd.toFixed(3); 
+
+        document.getElementById(`qfd_value${current_pcp_id}`).innerHTML = total_qfd.toFixed(3); 
 
 
         // Get poly line dist

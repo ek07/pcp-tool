@@ -3,7 +3,7 @@
  * link: https://bl.ocks.org/mbostock/7586334
  */
 
-function pcVis(data, dataDict, classes) {
+function pcVis(data, dataDict, classes, current_pcp_id) {
     var numCols = 3;
     console.log("Win width(px): " + $(window).width());
     var m = [30, 50, 10, 10], //margin: top, right, bottom, left
@@ -21,17 +21,18 @@ function pcVis(data, dataDict, classes) {
         background,
         foreground;
 
-
     // document.getElementById("targetPC").className = "grid";
-    document.getElementById("dim-div").className = "show";
+    // document.getElementById("dim-div").className = "show";
     var dim_order;
     var dim_length = d3.keys(dataDict[classes[0]][0]).length;
 
-    var dim_order_string = document.getElementById("dim-order").value;
+    var dim_or = `dim-order${current_pcp_id}`;
+    console.log(dim_or)
+    var dim_order_string = document.getElementById(dim_or).value;
 
     if (dim_order_string == ""){
         dim_order = numberRange(0, dim_length);
-        document.getElementById("dim-order").value=numberRangeToString(dim_order);
+        document.getElementById(dim_or).value=numberRangeToString(dim_order);
     } else{
         dim_order = stringToNumberRange(dim_order_string);
 
@@ -41,6 +42,9 @@ function pcVis(data, dataDict, classes) {
         }
     }
 
+    // clear old plots
+    d3.select(`#targetPC${current_pcp_id}`).selectAll("div").remove();
+    
     // Colors for different classes
     var colours = d3.scale.category10();
     var reordered_data = reorder_whole_ds(data, dim_order);
@@ -60,7 +64,9 @@ function pcVis(data, dataDict, classes) {
                 .range([h, 0]));
         }));
 
-        var svg = d3.select("#targetPC").append("div")
+        var targetPC = `#targetPC${current_pcp_id}`;
+
+        var svg = d3.select(targetPC).append("div")
             .attr("class", "pc")
             .append("svg")
             .attr("width", w + m[1] + m[3])

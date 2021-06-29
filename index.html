@@ -45,22 +45,25 @@
 
                       <!-- <input id="submit" value="Refresh Page" onClick="window.location.reload()"> -->
 
-                      <div class="hidden" id="dim-div"> 
-                        <br>
-                        <label>Dimension order: </label>
-                        <input type="text" id="dim-order" value="">
-                        <button id="reorder" html type="submit">Reorder</button>
+                      <div id="viz">
+<!--                           <div class="hidden" id="dim-div"> 
+                            <br>
+                            <label>Dimension order: </label>
+                            <input type="text" id="dim-order" value="">
+                            <button id="reorder" type="submit">Reorder</button>
+                            <button id="add-pcp" type="submit"> + </button>
+                            <b id="qfd">&emsp;Total QFD:&nbsp;</b> 
+                            <b id="qfd_value"> - </b>
 
-                        <b id="qfd">&emsp;Total QFD:&nbsp;</b> 
-                        <b id="qfd_value"> - </b>
+                            <b id="pcc">&emsp;Mean correlation:&nbsp;</b> 
+                            <b id="pcc_value"> - </b>
+                            <b id="polyline">&emsp;Mean polyline distance:&nbsp;</b> 
+                            <b id="polyline_value"> - </b>
 
-<!--                         <b id="pcc">&emsp;Mean correlation:&nbsp;</b> 
-                        <b id="pcc_value"> - </b> -->
-<!--                         <b id="polyline">&emsp;Mean polyline distance:&nbsp;</b> 
-                        <b id="polyline_value"> - </b> -->
+                          </div>
+
+                          <div class="grid" id="targetPC"></div> -->
                       </div>
-
-                      <div class="grid" id="targetPC"></div>
                       <br>
                       <br>
                 <!-- </div> -->
@@ -81,6 +84,7 @@
 <script src="js/index.js"></script>
 <script src="js/visualization/pcVis.js"></script>
 <script src="js/basics/auxiliary.js"></script>
+<script src="js/basics/html_elements.js"></script>
 <script src="js/distFunctions/qfd.js"></script>
 <script src="js/distFunctions/polyline.js"></script>
 <script src="js/distFunctions/correlation.js"></script>
