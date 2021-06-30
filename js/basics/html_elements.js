@@ -18,11 +18,11 @@ var pcp_div0 =
 
 function generate_pcp_div(pcp_id){
     pcp_div =  `<div class="show" id="dim-div${pcp_id}"> 
-                <br>
+                <br><br>
                 <label>Dimension order: </label>
                 <input class="dim-order" type="text" id="dim-order${pcp_id}" value="">
                 <button class="reorder" id="reorder${pcp_id}" type="submit" onclick=reorder(event)>Reorder</button>
-                <button id="add-pcp" type="submit"> + </button>
+                <button class="add-pcp" type="submit" id="add${pcp_id}" onclick=add_pcp(event)> + </button>
 
                 <b id="qfd${pcp_id}">&emsp;Total QFD:&nbsp;</b> 
                 <b id="qfd_value${pcp_id}"> - </b>
@@ -33,7 +33,8 @@ function generate_pcp_div(pcp_id){
                 
               </div>
 
-              <div class="grid" id="targetPC${pcp_id}"></div>`
+              <div class="grid" id="targetPC${pcp_id}"></div>
+              `
 
     return pcp_div;
 }

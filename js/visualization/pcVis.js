@@ -4,8 +4,9 @@
  */
 
 function pcVis(data, dataDict, classes, current_pcp_id) {
-    var numCols = 3;
+    // var numCols = 3;
     console.log("Win width(px): " + $(window).width());
+    
     var m = [30, 50, 10, 10], //margin: top, right, bottom, left
         // w = 550 - m[1] - m[3], // orig: 960
         w = 650 - m[1] - m[3];

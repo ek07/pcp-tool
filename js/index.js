@@ -23,15 +23,14 @@ $(document).ready(function(){
             before: function (file, inputElem) {
                 // clear old viz if any
                 d3.select("#viz").selectAll("div").remove();
-
+                
+                nr_pcp_elements = 0;
+                current_pcp_id = 0;
                 pcp_html = generate_pcp_div(current_pcp_id);
                 $('#viz').append(pcp_html);
 
-                if (e.target.id=="submit"){
-                    nr_pcp_elements = 0;
-                    current_pcp_id = 0;
-                    // document.getElementById("dim-order").value = "";
-                }    
+                // document.getElementById("dim-order").value = "";
+  
             },
             error: function (err, file) {
                 console.log("ERROR:", err, file);
@@ -49,6 +48,7 @@ $(document).ready(function(){
  */
 function reorder(e){
         var button_id = e.target.id;
+        current_pcp_id = get_pcp_id(button_id);
         e.preventDefault();
         e.stopPropagation();
 
@@ -75,68 +75,50 @@ function reorder(e){
 /**
  * New set of pcps. onclick hide previous plus button
  */
-$(document).ready(function(){
-    $('#add-pcp').click(function (e) {
-        // console.log($('#files'))
-        e.preventDefault();
-        e.stopPropagation();
+function add_pcp(e){
+    var button_id = e.target.id;
+    current_pcp_id = get_pcp_id(button_id);
+    
+    // remove add button for previous pcp
+    if (current_pcp_id >=0){
+        prev_add_btn_id = `add${current_pcp_id}`;
+        document.getElementById(prev_add_btn_id).className = "hide";
+    }
 
-        // If there is no data input
-        if (!$('#files')[0].files.length) {
-            alert("Please choose at least one file to read the data.");
+    // console.log($('#files'))
+    e.preventDefault();
+    e.stopPropagation();
+
+    // If there is no data input
+    if (!$('#files')[0].files.length) {
+        alert("Please choose at least one file to read the data.");
+    }
+
+    $('#files').parse({
+        config: {
+            delimiter: "auto",
+            complete: visualization
+        },
+        before: function (file, inputElem) {
+            current_pcp_id=nr_pcp_elements;
+            nr_pcp_elements+=1;
+            
+            var viz_div = document.getElementById("viz");
+
+            pcp_html = generate_pcp_div(current_pcp_id);
+            $('#viz').append(pcp_html);
+        },
+
+        error: function (err, file) {
+            console.log("ERROR:", err, file);
         }
-
-        $('#files').parse({
-            config: {
-                delimiter: "auto",
-                complete: visualization
-            },
-            before: function (file, inputElem) {
-                var viz_div = document.getElementById("viz");
-
-                // var new_div = document.createElement("div");
-                // new_div.class = "show";
-                // new_div.id = "dim-div";
-                // viz_div.append(new_div);
-                // viz_div.append(document.createElement("br"));
-
-                // var label = document.createElement("label");
-                // label.innerHTML = "Dimension order ";
-                // viz_div.append(label);
-
-                // var input = document.createElement("input");
-                // input.type = "text";
-                // input.id = "dim-order"
-
-                var html = `<div class="show" id="dim-div"> 
-                            <br>
-                            <label>Dimension order: </label>
-                            <input type="text" id="dim-order" value="">
-                            <button id="reorder" type="submit">Reorder</button>
-                            <button id="add-pcp" type="submit"> + </button>
-                            <b id="qfd">&emsp;Total QFD:&nbsp;</b> 
-                            <b id="qfd_value"> - </b>
-
-                          </div>
-
-                          <div class="grid" id="targetPC"></div>
-                          `;
-                // var innerhtml = viz_div.innerHTML;
-                // var new_innerhtml = innerhtml + html;
-                // viz_div.innerHtml += html;
-                $("#viz").append(html);
-            },
-            error: function (err, file) {
-                console.log("ERROR:", err, file);
-            }
-            // complete: function (file, e) {
-            //     e.stopPropagation();
-            //     return false;
-            // }
-        });
-        return false;
+        // complete: function (file, e) {
+        //     e.stopPropagation();
+        //     return false;
+        // }
     });
-});
+    return false;
+};
 
 // Compute QFD
 $(document).ready(function () {
@@ -163,32 +145,6 @@ $(document).ready(function () {
     });
 });
 
-// function load_data(e){
-//     e.preventDefault();
-//     e.stopPropagation();
-
-//     // If there is no data input
-//     if (!$('#files')[0].files.length) {
-//         alert("Please choose at least one file to read the data.");
-//     }
-
-//     $('#files').parse({
-//         config: {
-//             delimiter: "auto",
-//             complete: visualization
-//         },
-//         before: function (file, inputElem) {
-//         },
-//         error: function (err, file) {
-//             console.log("ERROR:", err, file);
-//         }
-//         // complete: function (file, e) {
-//         //     e.stopPropagation();
-//         //     return false;
-//         // }
-//     });
-//     return false;
-// }
 
 /**
  * Main Function to visualize pcp
