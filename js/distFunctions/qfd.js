@@ -115,7 +115,7 @@ function fvDist(fv1, fv2, dist_type){
     else if (dist_type=="euclidean2d"){
         return euclidean2d(fv1, fv2);
     }
-    else if (dist_type=="end"){
+    else if (dist_type=="emd"){
         // try this: https://github.com/nklb/wasserstein-distance/blob/master/ws_distance.m
     }
 }
@@ -133,9 +133,29 @@ function euclidean2d(fv1, fv2) {
             var temp = Math.pow(fv1_dim[i] - fv2_dim[i], 2);
             distance = distance + temp;
         }
-        distance_array.push(math.sqrt(distance));
+        distance_array.push(Math.sqrt(distance));
     }
     console.log(distance_array)
+    return distance_array;
+}
+
+// Wasserstein distance
+// assumes feature vectors are same length
+function wasserstein(fv1, fv2){
+    // https://stackoverflow.com/a/65175524
+    //np.mean(np.abs(np.sort(u) - np.sort(v)))
+
+    var distance_array = [];
+    for (dim=0; dim<fv1.length; dim++){
+        var distance = 0;
+        var fv1_sorted = fv1[dim].slice(0).sort();
+        var fv2_sorted = fv2[dim].slice(0).sort();
+
+        for (i=0; i<fv1_sorted.length; i++){
+            distance += Math.abs(fv1_sorted[i]- fv2_sorted[i]);
+        }
+        distance_array.push(distance/fv1_sorted.length);
+    }
     return distance_array;
 }
 
