@@ -210,8 +210,8 @@ function computeDistSingle(dataArray, current_pcp_id) {
         var total_qfd = 0;
         
         // Get total weight
-        var total_weight = (dataArray.length-1) * (class_combinations.length-1);
-
+        // var total_weight = (dataArray.length-1) * (class_combinations.length-1);
+        var total_weight = (dataArray.length-1) * (class_keys.length-1);
         for (c=0; c<class_combinations.length; c++){
             // Calculate QFD
             var class1 = class_combinations[c][0];
@@ -222,8 +222,11 @@ function computeDistSingle(dataArray, current_pcp_id) {
             var dist = fvDist(reordered_fvs[class1], reordered_fvs[class2], dist_type);
 
             if (featureVectorType=="mean"){
-                qfd = Math.sqrt(math.multiply(math.multiply(dist, dimDistMatrix), dist))
+                qfd = math.sqrt(math.multiply(math.multiply(dist, dimDistMatrix), dist))
                 weighted_qfd = qfd*(class1_size+class2_size)/total_weight;
+
+                console.log(class1_size+class2_size)
+                console.log(total_weight)
                 total_qfd += weighted_qfd;
             }
         }
