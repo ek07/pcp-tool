@@ -83,8 +83,49 @@ function meanStdFV(classDict, classes){
 }
 
 // Get histogram feature vector
-function histFV(){
+function histFV(classDict, classes){
+    var keys = d3.keys(classDict[classes[0]][0]);
+    var fvObj = {};
 
+    for (i=0; i<classes.length; i++){
+        var classData = classDict[classes[i]];
+        var classFv = new Array(keys.length).fill(0);
+        var raw_values = new Array(keys.length).fill(0);
+
+        for (row=0; row<classData.length; row++){
+            for (k=0; k<keys.length; k++){
+                var key = keys[k];
+                // classFv[k] += Number(classData[row][key]);
+                if (raw_values[k] == 0){
+                    raw_values[k] = [Number(classData[row][key])];
+                } else{
+                    raw_values[k].push(Number(classData[row][key]));
+                }
+            }
+        }
+
+        var feature_vec = [];
+
+        for (col=0; col<raw_values.length; col++){
+            col_data = raw_values[col];
+            var fv_arr = [];
+            // https://stackoverflow.com/questions/37445495/binning-an-array-in-javascript-for-a-histogram
+            var histGenerator = d3.bin()
+                .domain([0,1])    // Set the domain to cover the entire intervall [0,1]
+                .thresholds(4);  // number of thresholds; this will create 4+1 bins
+
+            var bins = histGenerator(col_data);
+
+            for (b=0; b<bins.length; b++){
+                fv_arr.push(bins[b].length/col_data.length);
+            }
+            feature_vec.push(fv_arr);
+        }
+
+        fvObj[classes[i]] = feature_vec
+    }
+    console.log(fvObj)
+    return fvObj;
 }
 
 // Calculate QFD between 2 feature vectors
@@ -117,6 +158,7 @@ function fvDist(fv1, fv2, dist_type){
     }
     else if (dist_type=="emd"){
         // try this: https://github.com/nklb/wasserstein-distance/blob/master/ws_distance.m
+        return wasserstein(fv1, fv2);
     }
 }
 
@@ -179,7 +221,7 @@ function computeDistSingle(dataArray, current_pcp_id) {
         if (featureVectorType=="mean") {
             featureVector = meanFV(classDict, classes);
             dist_type = "minus"
-            console.log(featureVector)
+            // console.log(featureVector)
             // console.log(featureVector[classes[0]])
             // console.log(featureVector[classes[1]])
             // var dist = fvDist(featureVector[classes[0]], featureVector[classes[1]], dist_type);
@@ -187,13 +229,13 @@ function computeDistSingle(dataArray, current_pcp_id) {
         } 
         else if (featureVectorType=="mean_std"){
             featureVector = meanStdFV(classDict, classes);
-            dist_type = "euclidean2d"
-            var dist = fvDist(featureVector[classes[0]], featureVector[classes[1]], dist_type);
-
+            console.log(featureVector)
+            dist_type = "emd"
         } 
-        else if (featureVectorType=="hist"){
+        else if (featureVectorType=="histogram"){
             featureVector = histFV(classDict, classes);
-            dist_type = "euclidean2d"
+            // dist_type = "euclidean2d"
+            dist_type = "emd"
         }
 
         // generate dist between dimensions
@@ -203,7 +245,7 @@ function computeDistSingle(dataArray, current_pcp_id) {
         var dim_order;
         var dim_length = d3.keys(classDict[classes[0]][0]).length;
         var dim_or = `dim-order${current_pcp_id}`;
-        console.log(dim_or)
+
         var dim_order_string = document.getElementById(dim_or).value;
 
         if (dim_order_string == ""){
@@ -241,14 +283,11 @@ function computeDistSingle(dataArray, current_pcp_id) {
 
             var dist = fvDist(reordered_fvs[class1], reordered_fvs[class2], dist_type);
 
-            if (featureVectorType=="mean"){
-                qfd = math.sqrt(math.multiply(math.multiply(dist, dimDistMatrix), dist))
-                weighted_qfd = qfd*(class1_size+class2_size)/total_weight;
+            qfd = math.sqrt(math.multiply(math.multiply(dist, dimDistMatrix), dist))
+            weighted_qfd = qfd*(class1_size+class2_size)/total_weight;
 
-                console.log(class1_size+class2_size)
-                console.log(total_weight)
-                total_qfd += weighted_qfd;
-            }
+            total_qfd += weighted_qfd;
+
         }
 
         var total_qfd = total_qfd// /class_combinations.length;

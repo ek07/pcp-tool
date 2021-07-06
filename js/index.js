@@ -57,6 +57,7 @@ function reorder(e){
             alert("Please choose at least one file to read the data.");
         }
 
+        // Should probably keep file data somewhere instead of reading it in again
         $('#files').parse({
             config: {
                 delimiter: "auto",
@@ -94,6 +95,7 @@ function add_pcp(e){
         alert("Please choose at least one file to read the data.");
     }
 
+    // Should probably keep file data somewhere instead of reading it in again
     $('#files').parse({
         config: {
             delimiter: "auto",

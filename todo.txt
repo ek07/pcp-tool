@@ -1,9 +1,9 @@
 Ordering algorithm:
-- Feature vector
-- QFD
-- Quality metrics
-- Partitioning
+- Feature vectors (std/histo)
+- QFD (std/histo)
+- Quality metrics (poly/correlation)
+- Partitioning (???)
 
 UI
-- Shared highlighting
-- Specifiable number of columns
+- Shared highlighting <= NOPE
+- Specifiable number of columns <= low low priority
