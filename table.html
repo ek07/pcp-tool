@@ -4,7 +4,8 @@
 <title>Parallel Coordinates Dimension Orderings Implementation</title>
 <link rel="stylesheet" href="css/bootstrap.css">
 <link rel="stylesheet" href="css/style.css">
-<link rel="stylesheet" href="css/Vis.css">
+<link rel="stylesheet" href="css/table.css">
+<link rel="stylesheet" href="css/Viz.css">
 
 <body>
 
@@ -26,6 +27,8 @@
                         <h3 class="heading">Load data (.csv):</h3>
                         <ul>
                             <li> The first column needs to contain the class.</li>
+                            <li> Computing time increases factorially with larger number of dimensions.
+                             For example: 3 dimensions take: ??? s</li>
                         </ul>
 
                         <p><input class="form-control" id="files" required="" type="file" accept=".csv"></p>
@@ -39,32 +42,13 @@
 
                       <br>
                       <br>
-                      <button id="submit"  type="submit">Submit</button>
-                      <!-- <button id="compute-dist" type="submit"> Compute QFD and QM </button> -->
-                      <!-- <button id="compute-dist" type="submit"> Compute QFD and QM </button> -->
-                      <input type="button" onclick="location.href='table.html';" value="Compute QFD and QM table" />
+                      <button id="compute-dist-table"  type="submit">Compute table</button>
 
+                      <input type="button" onclick="location.href='index.html';" value="Plot parallel coordinates" />
                       <!-- <input id="submit" value="Refresh Page" onClick="window.location.reload()"> -->
 
-                      <div id="viz">
-<!--                           <div class="hidden" id="dim-div"> 
-                            <br>
-                            <label>Dimension order: </label>
-                            <input type="text" id="dim-order" value="">
-                            <button id="reorder" type="submit">Reorder</button>
-                            <button id="add-pcp" type="submit"> + </button>
-                            <b id="qfd">&emsp;Total QFD:&nbsp;</b> 
-                            <b id="qfd_value"> - </b>
+                      <div id="table"></div>
 
-                            <b id="pcc">&emsp;Mean correlation:&nbsp;</b> 
-                            <b id="pcc_value"> - </b>
-                            <b id="polyline">&emsp;Mean polyline distance:&nbsp;</b> 
-                            <b id="polyline_value"> - </b>
-
-                          </div>
-
-                          <div class="grid" id="targetPC"></div> -->
-                      </div>
                       <br>
                       <br>
                 <!-- </div> -->
@@ -83,7 +67,7 @@
 <script src='js/bootstrap/math.js'></script>
 <script src="https://cdn.jsdelivr.net/npm/d3-array@3"></script>
 
-<script src="js/index.js"></script>
+<script src="js/table.js"></script>
 <script src="js/visualization/pcVis.js"></script>
 <script src="js/basics/auxiliary.js"></script>
 <script src="js/basics/html_elements.js"></script>

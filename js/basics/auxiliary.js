@@ -28,7 +28,8 @@ function buildTable(dataArray) {
     markup += "</table>";
 
 
-    $("#app").html(markup);
+    // $("#app").html(markup);
+    $("#table").html(markup);
 }
 
 /**

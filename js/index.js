@@ -124,7 +124,7 @@ function add_pcp(e){
 
 // Compute QFD
 $(document).ready(function () {
-    $('#compute-dist').on("click", function (e) {
+    $('#compute-dist-table').on("click", function (e) {
         e.preventDefault();
         // If there is no data input
         if (!$('#files')[0].files.length) {
@@ -134,7 +134,7 @@ $(document).ready(function () {
         $('#files').parse({
             config: {
                 delimiter: "auto",
-                complete: computeDist
+                complete: drawTable
             },
             before: function (file, inputElem) {
             },
@@ -232,4 +232,10 @@ function computeDist(results) {
         // }
         
     }
+}
+
+
+function drawTable(results){
+    var dataArray = rawDataToDataArray(results.data);
+    buildTable(dataArray)
 }
