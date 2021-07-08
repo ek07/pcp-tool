@@ -17,3 +17,16 @@
 //         print("ERROR SAME DIM!!")
         
 //     return simMat[firstDim][lastDim]
+
+
+function computeCorrelation(classDict, classes, ordering){
+    // var normalized_array = normalize(deepCopy(dataArray));
+    console.log(classDict)
+    var i;
+    var score = 0;
+    // start from i=0 since the header is removed during normaliztion
+    for (i=0; i < normalized_array.length; i++) {
+        var row = normalized_array[i].slice(1);
+        total_line_length += lineLen(row, ordering);
+    }
+}

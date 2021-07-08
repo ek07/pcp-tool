@@ -57,6 +57,7 @@ function pcVis(data, dataDict, classes, current_pcp_id) {
         var dataset = reorder_data(dataset_orig, dim_order);
 
         // Extract the list of dimensions and create a scale for each.
+        // this normalizes the values
         x.domain(dimensions = d3.keys(dataset[0]).filter(function (d) {
             return d !== "class" && (y[d] = d3.scale.linear()
                 .domain(d3.extent(reordered_data, function (p) {
@@ -95,7 +96,7 @@ function pcVis(data, dataDict, classes, current_pcp_id) {
                 return "translate(0, " + title_spacing + ")";
             });
 
-        // Add blue foreground lines for focus.
+        // Add foreground lines for focus.
         foreground = svg.append("g")
             .attr("class", "foreground")
             .selectAll("path")
@@ -157,15 +158,16 @@ function pcVis(data, dataDict, classes, current_pcp_id) {
             .attr("y", -9)
             .text(String);
 
-        // Add and store a brush for each axis.
-        g.append("g")
-            .attr("class", "brush")
-            .each(function (d) {
-                d3.select(this).call(y[d].brush = d3.svg.brush().y(y[d]).on("brushstart", brushstart).on("brush", brush));
-            })
-            .selectAll("rect")
-            .attr("x", -8)
-            .attr("width", 16);
+        // // Add and store a brush for each axis.
+        // g.append("g")
+        //     .attr("class", "brush")
+        //     .each(function (d) {
+        //         d3.select(this).call(y[d].brush = d3.svg.brush().y(y[d]).on("brushstart", brushstart).on("brush", brush));
+        //     })
+        //     .selectAll("rect")
+        //     .attr("x", -8)
+        //     .attr("width", 16);
+
     }
 
     function position(d) {
@@ -203,4 +205,5 @@ function pcVis(data, dataDict, classes, current_pcp_id) {
             }) ? null : "none";
         });
     }
+    return dim_order;
 }

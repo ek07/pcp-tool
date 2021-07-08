@@ -165,8 +165,16 @@ function visualization(results) {
         var classDict = convertToClassDict(visArr, classes);
 
         // console.log(classDict);
-        pcVis(objArray, classDict, classes, current_pcp_id);
-        computeDistSingle(dataArray, current_pcp_id);
+        var ordering = pcVis(objArray, classDict, classes, current_pcp_id);
+        computeDistSingle(dataArray, current_pcp_id); // compute qfd
+
+        var mean_corr = computeCorrelation(classDict, classes, ordering);
+        // document.getElementById(`pcc_value${current_pcp_id}`).innerHTML = mean_corr.toFixed(3); 
+
+        var mean_line_dist = computePolyLineLength(dataArray, ordering);
+        document.getElementById(`polyline_value${current_pcp_id}`).innerHTML = mean_line_dist.toFixed(3); 
+
+
     }
 }
 

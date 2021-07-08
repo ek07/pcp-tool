@@ -822,3 +822,36 @@ function permute(arr) {
     }
   }(0);
 }
+
+
+// normalize data
+function normalize(dataArray){
+    // start from i=1 since first row is the header
+    transposed_array = transpose(dataArray.slice(1));
+
+    // first row is class names
+    for (let i=1; i < transposed_array.length; i++) {
+        var row = transposed_array[i];
+        var max = Math.max.apply(null, row);
+        var min = Math.min.apply(null, row);
+        
+        for (let j=0; j<row.length; j++){
+            row[j] = (row[j]-min) / (max-min);
+        }
+    }
+    return transpose(transposed_array);
+}
+
+function transpose(matrix) {
+  const rows = matrix.length, cols = matrix[0].length;
+  const grid = [];
+  for (let j = 0; j < cols; j++) {
+    grid[j] = Array(rows);
+  }
+  for (let i = 0; i < rows; i++) {
+    for (let j = 0; j < cols; j++) {
+      grid[j][i] = matrix[i][j];
+    }
+  }
+  return grid;
+}
