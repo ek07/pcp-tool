@@ -19,14 +19,40 @@
 //     return simMat[firstDim][lastDim]
 
 
-function computeCorrelation(classDict, classes, ordering){
-    // var normalized_array = normalize(deepCopy(dataArray));
-    console.log(classDict)
-    var i;
+// computes average PCP correlation.
+// calculates correlation for each class PCP then return the mean correlation score.
+function computeCorrelation(dataArray, classes, ordering){
+    var normalized_array = normalize(deepCopy(dataArray));
     var score = 0;
+
     // start from i=0 since the header is removed during normaliztion
-    for (i=0; i < normalized_array.length; i++) {
-        var row = normalized_array[i].slice(1);
-        total_line_length += lineLen(row, ordering);
+    for (let c=0; c < classes.length; c++) {
+        var class_name = classes[c];
+        var class_array = [new Array(normalized_array[0].length)];
+
+        for (let i=0; i<normalized_array.length;i++){
+            if (normalized_array[i][0]==class_name){
+                class_array.push(normalized_array[i]);
+            }
+        }
+        correlation_matrix = getSimMat(class_array);
+        console.log(class_name);
+        console.log(correlation_matrix);
+        score+= getCorrScore(correlation_matrix, ordering);
     }
+
+    return score/classes.length;
+}
+
+function getCorrScore(correlation_matrix, ordering){
+    var single_pcp_score = 0;
+
+    for (var i=0; i<ordering.length-1; i++){
+        var dim1 = ordering[i];
+        var dim2 = ordering[i+1];
+
+        single_pcp_score += correlation_matrix[dim1][dim2];
+    }
+
+    return single_pcp_score;
 }

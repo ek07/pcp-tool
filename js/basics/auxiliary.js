@@ -187,9 +187,13 @@ function getColNumbers(matrix, col) {
  * @returns {any[]}
  */
 function getSimMat(dataArray) {
+    // dataArray = normalize(dataArray);
+    // console.log(dataArray)
     var simMat = new Array(dataArray[0].length - 1);
-    var simMeasure = document.getElementById("similarity").value;
-    for (var i = 0; i < dataArray[0].length - 1; i++) {
+    // var simMeasure = document.getElementById("similarity").value;
+    var simMeasure = "pcc";
+
+    for (var i = 0; i < dataArray[0].length-1; i++) {
         simMat[i] = new Array(dataArray[0].length - 1);
         for (var j = 0; j < i; j++) {
             if (simMeasure === "euclidean") {
@@ -197,26 +201,34 @@ function getSimMat(dataArray) {
             } else if (simMeasure === "pcc") {
                 simMat[i][j] = Math.abs(pcc(getColNumbers(dataArray, i + 1), getColNumbers(dataArray, j + 1)));
                 simMat[j][i] = Math.abs(pcc(getColNumbers(dataArray, i + 1), getColNumbers(dataArray, j + 1)));
+                // simMat[i][j] = pcc(getColNumbers(dataArray, i + 1), getColNumbers(dataArray, j + 1));
+                // simMat[j][i] = pcc(getColNumbers(dataArray, i + 1), getColNumbers(dataArray, j + 1));
             }
         }
     }
-    var defaultMax = getMaxDim(simMat)[2] + 1;
-    var selectedMethod = document.getElementById("list").value;
 
-    for (i = 0; i < dataArray[0].length - 1; i++) {
-        for (j = i; j < simMat.length; j++) {
-            if (simMeasure === "euclidean" && selectedMethod !== "12") {
-                simMat[i][j] = defaultMax;
-            } else if (simMeasure === "euclidean" && selectedMethod === "12") {
-                simMat[i][j] = -1;
-            } else if (simMeasure === "pcc" && selectedMethod !== "12") {
-                simMat[i][j] = -1;
-            } else {
-                simMat[i][j] = 2
-            }
-        }
+    for (i = 0; i < simMat.length; i++) {
+        simMat[i][i] = 1;
     }
-    console.log(simMat);
+    // var defaultMax = getMaxDim(simMat)[2] + 1;
+    // var selectedMethod = document.getElementById("list").value;
+    // var selectedMethod = "12";
+
+    // for (i = 0; i < dataArray[0].length - 1; i++) {
+    //     for (j = i; j < simMat.length; j++) {
+    //         if (simMeasure === "euclidean" && selectedMethod !== "12") {
+    //             simMat[i][j] = defaultMax;
+    //         } else if (simMeasure === "euclidean" && selectedMethod === "12") {
+    //             simMat[i][j] = -1;
+    //         } else if (simMeasure === "pcc" && selectedMethod !== "12") {
+    //             simMat[i][j] = -1;
+    //         } else {
+    //             simMat[i][j] = 1
+    //         }
+    //     }
+    // }
+
+    // console.log(simMat);
     return simMat;
 }
 
@@ -834,7 +846,7 @@ function normalize(dataArray){
         var row = transposed_array[i];
         var max = Math.max.apply(null, row);
         var min = Math.min.apply(null, row);
-        
+
         for (let j=0; j<row.length; j++){
             row[j] = (row[j]-min) / (max-min);
         }
