@@ -44,3 +44,46 @@ function lineLen(arr, ordering){
 
     return line_len;
 }
+
+
+// create poly line dist table (similar to correlation matrix)
+function getPlcMat(dataArray){
+    normalized_array = normalize(deepCopy(dataArray));
+    console.log(normalized_array);
+    var plcMat = new Array(dataArray[0].length - 1);
+
+    for (var i=0; i<normalized_array[0].length-1; i++){
+        plcMat[i] = new Array(dataArray[0].length - 1);
+         for (var j = 0; j < i; j++) {
+             mean_dim_dist = dimDist(normalized_array, i, j)/normalized_array.length;
+             plcMat[i][j] = mean_dim_dist;
+             plcMat[j][i] = mean_dim_dist;
+         }
+    }
+
+    for (i = 0; i < plcMat.length; i++) {
+        plcMat[i][i] = 0;
+    }
+    console.log(plcMat)
+    return plcMat;
+}
+
+// compute length between dimensions
+function dimDist(mat, dim1_index, dim2_index){
+    total_dim_dist = 0;
+
+    for (i=0; i < mat.length; i++) {
+        var row = mat[i].slice(1);
+        total_dim_dist += Math.sqrt(Math.pow(row[dim1_index]-row[dim2_index], 2) + 1);
+    }
+    return total_dim_dist;
+}
+
+
+function computeDistFromMat(plcMat, ordering){
+    var total_line_length = 0;
+    for (var i=0; i<ordering.length-1; i++){
+        total_line_length += plcMat[ordering[i]][ordering[i+1]];
+    }
+    return total_line_length;
+}

@@ -29,6 +29,9 @@ $(document).ready(function () {
 
 function drawTable(results){
     var dataArray = rawDataToDataArray(results.data);
+    var plcMat = getPlcMat(dataArray);
+    var mean_line_length = computeDistFromMat(plcMat, [0,1,2,3,4,5,6,7]);
+    console.log(mean_line_length);
     buildQFDTable(dataArray)
 }
 
