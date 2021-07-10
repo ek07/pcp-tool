@@ -36,8 +36,7 @@ function computeCorrelation(dataArray, classes, ordering){
             }
         }
         correlation_matrix = getSimMat(class_array);
-        console.log(class_name);
-        console.log(correlation_matrix);
+
         score+= getCorrScore(correlation_matrix, ordering);
     }
 

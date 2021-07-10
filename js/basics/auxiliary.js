@@ -9,6 +9,18 @@ function disableButton(obj) {
 }
 
 /**
+ *  show the further options needed for a specific ordering method
+ */
+function showSim() {
+    var selectedMethod = document.getElementById("feature-vector").value;
+
+    if (selectedMethod != "mean"){
+        document.getElementById("dist-options").className = "show";
+    }
+
+}
+
+/**
  * Draw data table if needed
  * @param dataArray
  */

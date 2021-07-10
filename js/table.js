@@ -48,12 +48,14 @@ function computeTable(results){
     } 
     else if (featureVectorType=="mean_std"){
         featureVector = meanStdFV(classDict, classes);
-        dist_type = "emd"
+        // dist_type = "emd"
+        dist_type = document.getElementById("feature-vector-dist").value;
     } 
     else if (featureVectorType=="histogram"){
         featureVector = histFV(classDict, classes);
         // dist_type = "euclidean2d"
-        dist_type = "emd"
+        // dist_type = "emd"
+        dist_type = document.getElementById("feature-vector-dist").value;
     }
 
     // generate dist between dimensions
@@ -72,6 +74,9 @@ function computeTable(results){
     if (numDimensions <=8){
         ordering_generator = permute(numberRange(0, numDimensions)); 
     }
+    else{ // DO PARTITIONING HERE
+        ordering_generator = permute(numberRange(0, numDimensions)); 
+    }
 
     // Example of how to use perm gen //
     var done = false;
@@ -87,7 +92,7 @@ function computeTable(results){
             id += 1;
 
             table_row["ordering"] = ordering;
-            console.log(ordering);
+
             var qfd = getQFD(featureVector, dimDistMatrix, classDict, dataArray.length, ordering, dist_type);
             table_row["qfd"] = qfd.toFixed(3);
             
@@ -109,7 +114,8 @@ function createTable(tableData){
         // layout:"fitDataFill",
         // layout:"fitDataTable",
         layout:"fitColumns",
-        height:"311px",
+        height:"511px",
+
     columns:[
     {title:"Ordering", field:"ordering", sorter:"number", frozen:true}, // frozen:true
     {title:"Total OFD", field:"qfd", sorter:"number"},
@@ -123,25 +129,3 @@ function createTable(tableData){
 
     table.addData(tableData, true);
 }
-
-
-// /**
-//  * Draw data table if needed
-//  * @param dataArray
-//  */
-// function buildQFDTable(dataArray) {
-//     var markup = "<table id='dataTable'  class='show' style='width:100%'>";
-//     // markup +=  "<caption>" + file_name +   "</caption>";
-
-//     var headers = ["Ordering", "Total OFD", "Mean correlation", "Mean polyline distance"]
-//     markup += "<tr>";
-//     for (var i = 0; i < headers.length; i++) {
-//         markup += "<th>" + headers[i] + "</th>";
-//     }
-//     markup+="</tr>"
-//     markup += "</table>";
-
-//     console.log(markup)
-//     // $("#app").html(markup);
-//     $("#table").html(markup);
-// }

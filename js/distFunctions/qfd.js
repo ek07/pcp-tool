@@ -221,21 +221,18 @@ function computeDistSingle(dataArray, current_pcp_id) {
         if (featureVectorType=="mean") {
             featureVector = meanFV(classDict, classes);
             dist_type = "minus"
-            // console.log(featureVector)
-            // console.log(featureVector[classes[0]])
-            // console.log(featureVector[classes[1]])
-            // var dist = fvDist(featureVector[classes[0]], featureVector[classes[1]], dist_type);
-            // console.log(dist)
         } 
         else if (featureVectorType=="mean_std"){
             featureVector = meanStdFV(classDict, classes);
             console.log(featureVector)
-            dist_type = "emd"
+            // dist_type = "emd"
+            dist_type = document.getElementById("feature-vector-dist").value;
         } 
         else if (featureVectorType=="histogram"){
             featureVector = histFV(classDict, classes);
             // dist_type = "euclidean2d"
-            dist_type = "emd"
+            // dist_type = "emd"
+            dist_type = document.getElementById("feature-vector-dist").value;
         }
 
         // generate dist between dimensions
