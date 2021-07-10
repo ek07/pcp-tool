@@ -14,10 +14,12 @@ function disableButton(obj) {
 function showSim() {
     var selectedMethod = document.getElementById("feature-vector").value;
 
-    if (selectedMethod != "mean"){
+    if (selectedMethod == "mean"){
+        document.getElementById("dist-options").className = "hidden";
+    }
+    else{
         document.getElementById("dist-options").className = "show";
     }
-
 }
 
 /**

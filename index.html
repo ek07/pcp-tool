@@ -31,7 +31,7 @@
                         <p><input class="form-control" id="files" required="" type="file" accept=".csv"></p>
 
                         <h3 >Select feature vector type:</h3>
-                        <select id="feature-vector">
+                        <select id="feature-vector" onchange="showSim()">
                             <option value="mean" id="0">Mean</option>
                             <option value="mean_std" id="1">Mean &#177 Std</option>
                             <option value="histogram" id="2">Histogram</option>
