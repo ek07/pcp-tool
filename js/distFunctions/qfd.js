@@ -422,7 +422,7 @@ function getQFD(featureVector, dimDistMatrix, classDict, data_size, ordering, di
         var class2_size = classDict[class2].length;
 
         var dist = fvDist(reordered_fvs[class1], reordered_fvs[class2], dist_type);
-        console.log(dist);
+
         qfd = math.sqrt(math.multiply(math.multiply(dist, dimDistMatrix), dist))
         weighted_qfd = qfd*(class1_size+class2_size)/total_weight;
 

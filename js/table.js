@@ -16,6 +16,7 @@ $(document).ready(function () {
             },
             before: function (file, inputElem) {
                 file_name = file.name;
+
             },
             error: function (err, file) {
                 console.log("ERROR:", err, file);
@@ -69,7 +70,7 @@ function computeTable(results){
     // Generate all possible orderings (Partition if more than ??)
     var ordering_generator;
     if (numDimensions <=8){
-        ordering_generator = permute(numberRange(0, classes.length)); 
+        ordering_generator = permute(numberRange(0, numDimensions)); 
     }
 
     // Example of how to use perm gen //
@@ -80,20 +81,24 @@ function computeTable(results){
         var ordering = perm.value
         done = perm.done
 
-        var table_row = {};
-        table_row["id"] = id;
-        table_row["ordering"] = ordering;
-        
-        var qfd = getQFD(featureVector, dimDistMatrix, classDict, dataArray.length, ordering, dist_type);
-        table_row["qfd"] = qfd;
-        
-        var corr = getCorrFromCorrMats(corrMats, classes, ordering);
-        table_row["correlation"] = corr;
+        if (!done){
+            var table_row = {};
+            table_row["id"] = id;
+            id += 1;
 
-        var mean_line_length = computeDistFromMat(plcMat, ordering);
-        table_row["linedist"] = mean_line_length;
+            table_row["ordering"] = ordering;
+            console.log(ordering);
+            var qfd = getQFD(featureVector, dimDistMatrix, classDict, dataArray.length, ordering, dist_type);
+            table_row["qfd"] = qfd.toFixed(3);
+            
+            var corr = getCorrFromCorrMats(corrMats, classes, ordering);
+            table_row["correlation"] = corr.toFixed(3);
 
-        table_values.push(table_row);
+            var mean_line_length = computeDistFromMat(plcMat, ordering);
+            table_row["linedist"] = mean_line_length.toFixed(3);
+
+            table_values.push(table_row);
+        }
     }
 
     createTable(table_values);
