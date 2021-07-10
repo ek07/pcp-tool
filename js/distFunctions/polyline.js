@@ -49,7 +49,7 @@ function lineLen(arr, ordering){
 // create poly line dist table (similar to correlation matrix)
 function getPlcMat(dataArray){
     normalized_array = normalize(deepCopy(dataArray));
-    console.log(normalized_array);
+
     var plcMat = new Array(dataArray[0].length - 1);
 
     for (var i=0; i<normalized_array[0].length-1; i++){
@@ -64,7 +64,7 @@ function getPlcMat(dataArray){
     for (i = 0; i < plcMat.length; i++) {
         plcMat[i][i] = 0;
     }
-    console.log(plcMat)
+
     return plcMat;
 }
 

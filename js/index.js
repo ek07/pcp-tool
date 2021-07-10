@@ -233,9 +233,3 @@ function computeDist(results) {
         
     }
 }
-
-
-function drawTable(results){
-    var dataArray = rawDataToDataArray(results.data);
-    buildTable(dataArray)
-}
