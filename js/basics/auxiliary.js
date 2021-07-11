@@ -882,3 +882,38 @@ function transpose(matrix) {
   }
   return grid;
 }
+
+
+
+// taken from: https://www.geeksforgeeks.org/split-the-number-into-n-parts-such-that-difference-between-the-smallest-and-the-largest-part-is-minimum/
+function getPartitionSizes(x, n)
+{
+    var partition_sizes = [];   
+    // If x % n == 0 then the minimum
+    // difference is 0 and all
+    // numbers are x / n
+    if (x % n == 0)
+    {
+        for(let i=0;i<n;i++)
+            partition_sizes.push(x/n);
+    }
+    else
+    {
+        // upto n-(x % n) the values
+        // will be x / n
+        // after that the values
+        // will be x / n + 1
+        let zp = n - (x % n);
+        let pp = Math.floor(x/n);
+        for(let i=0;i<n;i++)
+        {
+
+            if(i>= zp)
+                partition_sizes.push(pp+1);
+            else
+                partition_sizes.push(pp);
+        }
+    }
+    return partition_sizes;
+}
+
