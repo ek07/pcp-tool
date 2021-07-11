@@ -27,8 +27,11 @@
                         <h3 class="heading">Load data (.csv):</h3>
                         <ul>
                             <li> The first column needs to contain the class.</li>
-                            <li> Computing time increases factorially with larger number of dimensions.
-                             For example: 3 dimensions take: ??? s</li>
+                            <li> Computing time increases factorially with larger number of dimensions.</li>
+                            <li> Data with more than 8 dimensions are split into 2 partitions and won't provide results for all orderings.</li>
+                            <li> Higher QFD means the average distance of each PCP from each other is higher. i.e. they are more different.</li>
+                            <li> Higher correlation => better PCP. </li>
+                            <li> Smaller polyline distance => better PCP.</li>
                         </ul>
 
                         <p><input class="form-control" id="files" required="" type="file" accept=".csv"></p>
@@ -52,13 +55,14 @@
                       <button id="compute-dist-table"  type="submit">Compute table</button>
 
                       <input type="button" onclick="location.href='index.html';" value="Plot parallel coordinates" />
-                      <!-- <input id="submit" value="Refresh Page" onClick="window.location.reload()"> -->
+                      <br>
+                      <div id="full-results">
+                        <div id="example-table"></div>
+                        <div id="corr_scatter"></div>
+                        <div id="poly_scatter"></div>
+                      </div>
+                      <br>
 
-                      <div id="table"></div>
-                      <div id="example-table"></div>
-                      <br>
-                      <br>
-                <!-- </div> -->
             </div>
         </div>
     </div>
@@ -76,6 +80,9 @@
 <link href="css/tabulator/tabulator.min.css" rel="stylesheet">
 <script type="text/javascript" src="js/bootstrap/tabulator/tabulator.min.js"></script>
 
+<script src="https://unpkg.com/d3-regression@1.3.9/dist/d3-regression.min.js"></script>
+<script src="https://d3js.org/d3.v4.js"></script>
+
 <script src="js/table.js"></script>
 <script src="js/visualization/pcVis.js"></script>
 <script src="js/basics/auxiliary.js"></script>
@@ -85,18 +92,5 @@
 <script src="js/distFunctions/correlation.js"></script>
 <script src="js/basics/combinations.js"></script>
 
-<!-- <script src="js/basics/svd.js"></script> -->
-
-<!-- <script src="js/orderingMethods/artero.js"></script>
-<script src="js/orderingMethods/artero_dis.js"></script>
-<script src="js/orderingMethods/luCon.js"></script>
-<script src="js/orderingMethods/luSim.js"></script>
-<script src="js/orderingMethods/sim_global.js"></script>
-<script src="js/orderingMethods/dissimilarity_global.js"></script>
-<script src="js/orderingMethods/makwana.js"></script>
-<script src="js/orderingMethods/peng_pc.js"></script>
-<script src="js/orderingMethods/pargnostics.js"></script>
-<script src="js/orderingMethods/maxVar_global.js"></script>
-<script src="js/orderingMethods/minVar_global.js"></script> -->
 </body>
 

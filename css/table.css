@@ -1,4 +1,9 @@
-table, th, td {
+/*table, th, td {
   border: 2px solid black;
   border-collapse: collapse;
+}*/
+
+#full-results {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 620px);
 }
