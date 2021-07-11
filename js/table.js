@@ -116,17 +116,19 @@ function computeTable(results){
 }
 
 function createTable(tableData){
+    document.getElementById("download-csv").className = "show";
+
     var screen_height = screen.height/2;
     var table = new Tabulator("#example-table", {
         // layout:"fitDataFill",
-        layout:"fitDataTable",
+        // layout:"fitDataTable",
         // layout:"fitDataStretch",
-        // layout:"fitColumns",
+        layout:"fitColumns",
         height:screen_height+"px",
 
     columns:[
-    {title:"Index", field:"id", sorter: "number", frozen:true},
-    {title:"Ordering", field:"ordering", sorter:"string"}, // frozen:true
+    {title:"Index", field:"id", sorter: "number", headerFilter:"input", frozen:true},
+    {title:"Ordering", field:"ordering", sorter:"string", headerFilter:"input"}, // frozen:true
     {title:"Total OFD", field:"qfd", sorter:"number"},
     {title:"Mean correlation", field:"correlation", sorter:"number"},
     {title:"Mean polyline distance", field:"linedist", sorter:"number"},
@@ -137,6 +139,12 @@ function createTable(tableData){
     //                 {id:2, "ordering":[0,1,3,2], qfd:45, correlation:12.3, linedist:0.62}], true);   
 
     table.addData(tableData, true);
+
+    //trigger download of data.csv file
+    document.getElementById("download-csv").addEventListener("click", function(){
+        var fname = file_name.split(".")[0] + "_metrics.csv"
+        table.download("csv", fname);
+    });
 }
 
 
@@ -235,6 +243,7 @@ function plotScatter(data, fig_id, scatter_color, y_label){
       .attr("y", -margin.left + 20)
       .attr("x", -margin.top - height/2 + 90)
       .text(y_label)
+
 }
 
 
