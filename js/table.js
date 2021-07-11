@@ -198,7 +198,8 @@ function plotScatter(data, fig_id, scatter_color, y_label){
       .style("fill", scatter_color)
 
     // Plot regression line
-    var linearRegression = d3.regressionLinear()
+    // modified and renames linearregression library from d3 to d3reg to prevent overlap with d3v4
+    var linearRegression = d3reg.regressionLinear()
    .x(d => d.x)
    .y(d => d.y);
 

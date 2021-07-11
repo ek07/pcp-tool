@@ -124,7 +124,7 @@ function histFV(classDict, classes){
 
         fvObj[classes[i]] = feature_vec
     }
-    console.log(fvObj)
+    // console.log(fvObj)
     return fvObj;
 }
 
@@ -177,7 +177,7 @@ function euclidean2d(fv1, fv2) {
         }
         distance_array.push(Math.sqrt(distance));
     }
-    console.log(distance_array)
+    // console.log(distance_array)
     return distance_array;
 }
 
@@ -224,7 +224,7 @@ function computeDistSingle(dataArray, current_pcp_id) {
         } 
         else if (featureVectorType=="mean_std"){
             featureVector = meanStdFV(classDict, classes);
-            console.log(featureVector)
+            // console.log(featureVector)
             // dist_type = "emd"
             dist_type = document.getElementById("feature-vector-dist").value;
         } 
@@ -322,7 +322,7 @@ function computeDistOrdering(dataArray, ordering) {
         } 
         else if (featureVectorType=="mean_std"){
             featureVector = meanStdFV(classDict, classes);
-            console.log(featureVector)
+            // console.log(featureVector)
             dist_type = "emd"
         } 
         else if (featureVectorType=="histogram"){
