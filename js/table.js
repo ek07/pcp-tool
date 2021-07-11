@@ -29,6 +29,8 @@ $(document).ready(function () {
 
 
 function computeTable(results){
+    // startTime = performance.now();
+    
     var fileName = document.getElementById('files').files[0].name.slice(0, -4);
     var dataArray = rawDataToDataArray(results.data);
 
@@ -48,15 +50,15 @@ function computeTable(results){
     } 
     else if (featureVectorType=="mean_std"){
         featureVector = meanStdFV(classDict, classes);
-        // dist_type = "emd"
         dist_type = document.getElementById("feature-vector-dist").value;
     } 
     else if (featureVectorType=="histogram"){
         featureVector = histFV(classDict, classes);
-        // dist_type = "euclidean2d"
-        // dist_type = "emd"
         dist_type = document.getElementById("feature-vector-dist").value;
     }
+
+    // Calculate distances between feature vectors
+    var fv_dists = classDistances(featureVector, dist_type);
 
     // generate dist between dimensions
     var dimDistMatrix = dimensionDistMatrix(numDimensions);
@@ -95,7 +97,8 @@ function computeTable(results){
 
             table_row["ordering"] = ordering;
 
-            var qfd = getQFD(featureVector, dimDistMatrix, classDict, dataArray.length, ordering, dist_type);
+            // var qfd = getQFD(featureVector, dimDistMatrix, classDict, dataArray.length, ordering, dist_type);
+            var qfd = getQFDFast(fv_dists, dimDistMatrix, classDict, dataArray.length, ordering, classes) // ~1 sec faster on wine_sub.csv
             table_row["qfd"] = qfd.toFixed(4);
             
             var corr = getCorrFromCorrMats(corrMats, classes, ordering);
@@ -113,6 +116,14 @@ function computeTable(results){
     createTable(table_values);
     plotScatter(corr_scatter_vals, "#corr_scatter", "#0000FF", "Mean correlation"); // blue
     plotScatter(polydist_scatter_vals, "#poly_scatter", "#FF0000", "Mean polyline distance"); // red
+
+
+  // endTime = performance.now();
+  // var timeDiff = endTime - startTime; //in ms 
+  // // strip the ms 
+  // timeDiff /= 1000; 
+
+  // console.log(timeDiff + " seconds");
 }
 
 function createTable(tableData){

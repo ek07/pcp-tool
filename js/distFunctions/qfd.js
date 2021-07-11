@@ -128,10 +128,6 @@ function histFV(classDict, classes){
     return fvObj;
 }
 
-// Calculate QFD between 2 feature vectors
-function qfd(){
-
-}
 
 // Generate distance matrix for dimension axes
 function dimensionDistMatrix(numDims){
@@ -427,4 +423,58 @@ function getQFD(featureVector, dimDistMatrix, classDict, data_size, ordering, di
     }
 
     return total_qfd;
+}
+
+function getQFDFast(fv_dists, dimDistMatrix, classDict, data_size, ordering, class_keys){
+    var class_combinations = k_combinations(class_keys, 2)
+    var total_qfd = 0;
+    var reordered_dist;
+
+    // Get total weight
+    // var total_weight = (dataArray.length-1) * (class_combinations.length-1);
+    var total_weight = (data_size-1) * (class_keys.length-1);
+
+    for (var c=0; c<class_combinations.length; c++){
+        // Calculate QFD
+        var class1 = class_combinations[c][0];
+        var class2 = class_combinations[c][1];
+        var class1_size = classDict[class1].length;
+        var class2_size = classDict[class2].length;
+
+        dist = fv_dists[class_combinations[c]];
+
+        // reorder dist
+        reordered_dist = [];
+        for (var i=0; i<ordering.length; i++){
+            reordered_dist.push(dist[ordering[i]]);
+        }
+
+        qfd = math.sqrt(math.multiply(math.multiply(reordered_dist, dimDistMatrix), reordered_dist))
+        weighted_qfd = qfd*(class1_size+class2_size)/total_weight;
+
+        total_qfd += weighted_qfd;
+    }
+
+    return total_qfd;
+}
+
+
+function classDistances(featureVector, dist_type){
+    // Reorder FV
+    var class_keys = Object.keys(featureVector);
+    var fv_diffs = {};
+    
+    var class_combinations = k_combinations(class_keys, 2)
+    var dist;
+
+    for (c=0; c<class_combinations.length; c++){
+        // Calculate QFD
+        var class1 = class_combinations[c][0];
+        var class2 = class_combinations[c][1];
+
+        dist = fvDist(featureVector[class1], featureVector[class2], dist_type);
+        fv_diffs[class_combinations[c]] = dist;
+    }
+
+    return fv_diffs;
 }
