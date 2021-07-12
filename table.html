@@ -64,7 +64,11 @@
                         <div id="poly_scatter"></div>
                       </div>
 
-                      <button id="download-csv" class="hidden">Download as CSV</button>
+                      <div id="download-buttons">
+                        <button id="download-csv" class="hidden">Download as CSV</button>
+                        <button id="download-corr-graph" class="hidden" onclick="saveAsSVG('corr_scatter')">Download as SVG</button>
+                        <button id="download-poly-graph" class="hidden" onclick="saveAsSVG('poly_scatter')">Download as SVG</button>
+                      </div>
                       <br>
 
             </div>
@@ -79,6 +83,7 @@
 <script src="js/bootstrap/tabulator/tabulator.min.js"></script>
 <script src="js/bootstrap/d3-regression.min.js"></script>
 <script src="js/bootstrap/d3.v4.min.js"></script>
+<script src="js/bootstrap/FileSaver.min.js"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/d3-array@3"></script>
 

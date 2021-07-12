@@ -147,6 +147,12 @@ function computeTable(results){
     plotScatter(polydist_scatter_vals, "#poly_scatter", "#FF0000", "Mean polyline distance"); // red
 
 
+    document.getElementById("download-corr-graph").className = "show";
+    // document.getElementById("download-corr-graph").onclick = saveAsSVG;
+
+    document.getElementById("download-poly-graph").className = "show";
+    // document.getElementById("download-poly-graph").onclick = saveAsSVG;
+
     // time
     var endTime = performance.now();
     var timeDiff = endTime - startTime; //in ms 
@@ -191,6 +197,7 @@ function createTable(tableData){
 // Plot relationship between QFD and QMs
 function plotScatter(data, fig_id, scatter_color, y_label){
     d3.select(fig_id).selectAll("svg").remove();
+
     // set the dimensions and margins of the graph
     var margin = {top: 20, right: 40, bottom: 45, left: 60},
         // width = 460 - margin.left - margin.right,
@@ -284,7 +291,6 @@ function plotScatter(data, fig_id, scatter_color, y_label){
       .attr("y", -margin.left + 20)
       .attr("x", -margin.top - height/2 + 90)
       .text(y_label)
-
 }
 
 // Generator for orderings
@@ -426,21 +432,38 @@ function* partition_ordering_generator(partition_range_perms, partition_ordering
 
 }
 
-function saveAsSVG() {
-    var svgString = getSVGString();
+// function save_as_svg(svg_id){
+//     // fetch('path/../assets/chart.css')
+//     // .then(response => response.text())
+//     // .then(text => {
+//         var svg_data = document.getElementById(svg_id).innerHTML
+//         var head = '<svg title="graph" version="1.1" xmlns="http://www.w3.org/2000/svg">'
+//         var style = "<style>" + text + "</style>"
+//         var full_svg = head +  style + svg_data + "</svg>"
+//         var blob = new Blob([full_svg], {type: "image/svg+xml"});  
+//         saveAs(blob, "graph.svg");
+//     // })
+// };
+
+
+// Taken from InfoViz project
+function saveAsSVG(svg_id) {
+    var svgString = getSVGString(svg_id);
     var svg_text = new Blob([svgString],
         { type: "image/svg+xml;charset=utf-8" }); // type:"text/svg;charset=utf-8"
-    saveAs(svg_text, "test.svg");
+
+    var fname = file_name.split(".")[0] + "_" + svg_id.split("_")[0] + ".svg";
+    saveAs(svg_text, fname);
 
 }
 
 // https://stackoverflow.com/questions/23218174/how-do-i-save-export-an-svg-file-after-creating-an-svg-with-d3-js-ie-safari-an
-function getSVGString(){
+function getSVGString(svg_id){
     const xmlns = "http://www.w3.org/2000/xmlns/";
     const xlinkns = "http://www.w3.org/1999/xlink";
     const svgns = "http://www.w3.org/2000/svg";
     // var svgString = d3.select("#stringcharter").node().innerHTML; // inner or outer html? svg
-    var svgString = document.getElementById("contentDiv").innerHTML;
+    var svgString = document.getElementById(svg_id).innerHTML;
 
     //add name spaces.
     svgString = "<svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" >" + svgString + "</svg>";
