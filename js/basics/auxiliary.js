@@ -722,8 +722,9 @@ function dimOrderValid(dim_order, expected_dim_length){
     // Check all values in dim order are between 1-dim_length+1
     // and that they all appear only once.
     var valid_range = numberRange(0, expected_dim_length);
-    var sorted_dim_order = dim_order.slice(0).sort();
-
+    console.log(valid_range);
+    var sorted_dim_order = dim_order.slice(0).sort(function (a,b) { return a-b;}); // this does numeric sort. for some reason sort() sorts alphabetically
+    console.log(sorted_dim_order);
     for (i=0; i<dim_order.length; i++){
         if (sorted_dim_order[i]!=valid_range[i]){
             return false;
