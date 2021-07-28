@@ -127,7 +127,7 @@ function computeTable(results){
             table_row["ordering"] = ordering;
 
             // var qfd = getQFD(featureVector, dimDistMatrix, classDict, dataArray.length, ordering, dist_type);
-            var qfd = getQFDFast(fv_dists, dimDistMatrix, classDict, dataArray.length, ordering, classes) // ~0.8 sec faster on wine_sub.csv
+            var qfd = getQFDFast(fv_dists, dimDistMatrix, classDict, dataArray.length, ordering, classes) // ~0.8 sec faster on wine_sub.csv (not actually much faster)
             table_row["qfd"] = qfd.toFixed(4);
             
             var corr = getCorrFromCorrMats(corrMats, classes, ordering);
@@ -146,12 +146,9 @@ function computeTable(results){
     plotScatter(corr_scatter_vals, "#corr_scatter", "#0000FF", "Mean correlation"); // blue
     plotScatter(polydist_scatter_vals, "#poly_scatter", "#FF0000", "Mean polyline distance"); // red
 
-
+    // show svg download buttons
     document.getElementById("download-corr-graph").className = "show";
-    // document.getElementById("download-corr-graph").onclick = saveAsSVG;
-
     document.getElementById("download-poly-graph").className = "show";
-    // document.getElementById("download-poly-graph").onclick = saveAsSVG;
 
     // time
     var endTime = performance.now();
@@ -294,7 +291,7 @@ function plotScatter(data, fig_id, scatter_color, y_label){
 }
 
 // Generator for orderings
-// Always has 3 or 4 partitions
+// Always has 2, 3 or 4 partitions
 function* partition_ordering_generator(partition_range_perms, partition_orderings) {
     // partition_orderings: [[0,1,2], [0,2,1], ...]
     // partition_range_perms: {0: [[0,1,2,3], [0,1,3,2], ..], 1: [[4,5,6,7], ..], 2: [[8,9,10], ...]}

@@ -1,9 +1,3 @@
-Ordering algorithm:
-- Feature vectors (std/histo)
-- QFD (std/histo)
-- Quality metrics (poly/correlation)
-- Partitioning (???)
-
-UI
-- Shared highlighting <= NOPE
-- Specifiable number of columns <= low low priority
+Possible other features:
+- Specifiable number of columns for PCP plotting
+- Annotate scatter plots

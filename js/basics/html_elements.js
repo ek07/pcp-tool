@@ -10,7 +10,7 @@ var pcp_div0 =
                 <b id="qfd_value"> - </b>
                 <b id="pcc">&emsp;Mean correlation:&nbsp;</b> 
                 <b id="pcc_value"> - </b>
-                <b id="polyline">&emsp;Mean polyline distance:&nbsp;</b> 
+                <b id="polyline">&emsp;Mean poly line distance:&nbsp;</b> 
                 <b id="polyline_value"> - </b>
                 
               </div>
@@ -28,7 +28,7 @@ function generate_pcp_div(pcp_id){
                 <b id="qfd_value${pcp_id}"> - </b>
                 <b id="pcc${pcp_id}">&emsp;Mean correlation:&nbsp;</b> 
                 <b id="pcc_value${pcp_id}"> - </b>
-                <b id="polyline${pcp_id}">&emsp;Mean polyline distance:&nbsp;</b> 
+                <b id="polyline${pcp_id}">&emsp;Mean poly line distance:&nbsp;</b> 
                 <b id="polyline_value${pcp_id}"> - </b>
                 
               </div>
