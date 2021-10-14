@@ -173,7 +173,7 @@ function createTable(tableData){
     columns:[
     {title:"Index", field:"id", sorter: "number", headerFilter:"input", frozen:true},
     {title:"Ordering", field:"ordering", sorter:"string", headerFilter:"input"}, // frozen:true
-    {title:"Total OFD", field:"qfd", sorter:"number"},
+    {title:"Total QFD", field:"qfd", sorter:"number"},
     {title:"Mean correlation", field:"correlation", sorter:"number"},
     {title:"Mean polyline distance", field:"linedist", sorter:"number"},
     ]
